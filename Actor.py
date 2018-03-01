@@ -20,8 +20,10 @@ class Actor:
         self.pos.add(self.vel)
         self.vel.multiply(0.6)
 
-    def draw(self, canvas, pos, size):
-        canvas.draw_circle(pos.getP(), size, 1, "Red", "White")
+    def draw(self, canvas):
+        canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", "White")
+        self.weapon.draw(canvas)
+
 
     def __str__(self):
         return str(self.health) + self.weapon + str(self.speed) + str(self.size)
