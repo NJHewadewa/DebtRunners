@@ -13,6 +13,7 @@ class Game:
         frame.set_draw_handler(self.draw)
         frame.set_keydown_handler(self.kbd.keyDown)
         frame.set_keyup_handler(self.kbd.keyUp)
+        frame.set_mouseclick_handler(self.click)
         frame.start()
 
     def initialise(self):
@@ -31,6 +32,9 @@ class Game:
         self.player.weapon.draw(canvas)
         self.player.draw(canvas)
         print(self.player.weapon.pos)
+
+    def click(self, pos):
+        self.player.weapon.addAttack(self.player.weapon.pos, self.mouse.pos)
 
 class Mouse:
     def __init__(self):
