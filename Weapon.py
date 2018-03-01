@@ -1,9 +1,11 @@
 from Vector import Vector
 
 class Weapon:
-    def __init__(self, d=20, pos=Vector()):
-        self.name = ""
+    def __init__(self, d=20, cd=60, name="", pos=Vector()):
         self.damage = d
+        self.cooldown = cd
+        self.name = name
+        self.timer = 0
         self.pos = pos
         self.attack = []
 
@@ -19,8 +21,10 @@ class Weapon:
         # structure but for now lets keep it simple.
 
     def addAttack(self, posStart=Vector(), posEnd=Vector()):
-        vel = posEnd.copy().subtract(posStart).normalize().multiply(10)
-        self.attack.append(Bullet(posStart, vel))
+        if self.timer <= 0:
+            vel = posEnd.copy().subtract(posStart).normalize().multiply(10)
+            self.attack.append(Bullet(posStart, vel))
+            self.timer = self.cooldown
 
     def removeAttack(self, attack):
         self.attack.remove(attack)
@@ -34,9 +38,20 @@ class Weapon:
             canvas.draw_circle(a.pos.getP(), 2, 1, "Blue", "Blue")
 
     def update(self, mousepos, playerpos):
+        #if weapon is being held
         self.pos = mousepos.subtract(playerpos).getNormalized().multiply(9).add(playerpos)
+        #else update position with velocity of it being thrown
+        #####HERE#####
+        #Update all bullets fired by the gun
         for a in self.attack:
             a.update()
+        self.manageCooldown()
+
+    def manageCooldown(self):
+        if self.timer < 0:
+            self.timer = 0
+        else:
+            self.timer -= 1
 
 class Knife(Weapon):
     def __init__(self, name="", d=25):
@@ -55,8 +70,8 @@ class Knife(Weapon):
     # def update(self):
 
 class Pistol(Weapon):
-    def __init__(self, name="", d=25):
-        super().__init__(name, d)
+    def __init__(self, d=25, cd=45, name=""):
+        super().__init__(d, cd, name)
 
 class Bullet:
     def __init__(self, pos=Vector(), vel=Vector()):

@@ -1,7 +1,8 @@
 from Vector import Vector
+from Weapon import Weapon, Pistol
 
 class Actor:
-    def __init__(self, pos = Vector(), vel = Vector(), h=100, w="", speed=0, size=10):
+    def __init__(self, pos=Vector(), vel=Vector(), h=100, w=Weapon(), speed=0, size=10):
         self.pos = pos
         self.vel = vel
         self.health = h

@@ -31,7 +31,7 @@ class Game:
         #DRAW CHARS HERE
         self.player.weapon.draw(canvas)
         self.player.draw(canvas)
-        print(self.player.weapon.pos)
+        print(self.player.weapon.cooldown)
 
     def click(self, pos):
         self.player.weapon.addAttack(self.player.weapon.pos, self.mouse.pos)

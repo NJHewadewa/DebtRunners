@@ -2,9 +2,8 @@ from Actor import Actor
 from Vector import Vector
 from Weapon import Knife, Pistol
 
-class Player(Actor):
-    def __init__(self, pos=Vector(), health=100, weapon=Pistol(), speed=2, lives=3, vel=Vector()):
-        self.lives = lives
+class Enemy(Actor):
+    def __init__(self, pos=Vector(), vel=Vector(), health=50, weapon=Pistol(), speed=1):
         super().__init__(pos, vel, health, weapon, speed)
 
     def __str__(self):
