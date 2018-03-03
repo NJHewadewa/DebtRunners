@@ -26,9 +26,8 @@ class Game:
         self.move = Movement(self.player, self.kbd)
         self.enemies = []
 
-
     def wave1(self):
-        for e in range(4):
+        for e in range(3):
             #Assigns the enemies different positions, health and a new weapon
             self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH/4*(e+1), self.CANVAS_HEIGHT/4), 10, Pistol()))
 
@@ -60,11 +59,7 @@ class Game:
 
         #Debug print
         #print(self.player.pos)
-        print(self.player.weapon)
-        print(self.enemies[0].weapon)
-        print(self.enemies[1].weapon)
-        print(self.enemies[2].weapon)
-        print(self.enemies[3].weapon)
+        #print(self.player.weapon)
 
     def click(self, pos):
         self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
