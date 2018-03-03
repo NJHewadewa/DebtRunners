@@ -44,11 +44,9 @@ class Game:
         #self.enemies[0].weapon.addAttack(self.player.pos.copy(), self.enemies[0].weapon.pos)
         for enemy in self.enemies:
             for bullet in enemy.weapon.attack:
-                if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20:
+                if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
                     enemy.weapon.removeAttack(bullet)
-
-                if bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
-                    enemy.weapon.removeAttack(bullet)
+                    
         #DRAW CHARS HERE
         self.player.draw(canvas)
         print(self.player.pos)
