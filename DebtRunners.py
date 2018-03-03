@@ -3,6 +3,7 @@ import pygame
 from Player import Player
 from Enemy import Enemy
 from Vector import Vector
+from Weapon import Pistol
 
 class Game:
     def __init__(self, w=600, h=400):
@@ -24,11 +25,12 @@ class Game:
         self.player = Player(Vector(self.CANVAS_WIDTH/2, self.CANVAS_HEIGHT/4*3))
         self.move = Movement(self.player, self.kbd)
         self.enemies = []
-        self.enemies.append(Enemy(Vector(300, 200)))
+
 
     def wave1(self):
-        for e in range(3):
-            self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH/4*(e+1), self.CANVAS_HEIGHT/4)))
+        for e in range(4):
+            #Assigns the enemies different positions, health and a new weapon
+            self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH/4*(e+1), self.CANVAS_HEIGHT/4), 10, Pistol()))
 
 
     def draw(self, canvas):
@@ -36,20 +38,33 @@ class Game:
         self.move.update()
         self.player.update(self.mouse.pos.copy())
         self.mouse.update()
+
+        #Draw and update enemies
         for enemy in self.enemies:
             #temp shooting place
             enemy.update(self.player.pos.copy())
             enemy.draw(canvas)
             enemy.weapon.addAttack(self.player.pos.copy(), enemy.weapon.pos.copy())
-        #self.enemies[0].weapon.addAttack(self.player.pos.copy(), self.enemies[0].weapon.pos)
+
+        #Bullet OoB check
+        for bullet in self.player.weapon.attack:
+            if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
+                self.player.weapon.removeAttack(bullet)
         for enemy in self.enemies:
             for bullet in enemy.weapon.attack:
                 if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
                     enemy.weapon.removeAttack(bullet)
-                    
+
         #DRAW CHARS HERE
         self.player.draw(canvas)
-        print(self.player.pos)
+
+        #Debug print
+        #print(self.player.pos)
+        print(self.player.weapon)
+        print(self.enemies[0].weapon)
+        print(self.enemies[1].weapon)
+        print(self.enemies[2].weapon)
+        print(self.enemies[3].weapon)
 
     def click(self, pos):
         self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())

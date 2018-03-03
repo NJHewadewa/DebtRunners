@@ -22,7 +22,7 @@ class Weapon:
 
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         if self.timer <= 0:
-            vel = posEnd.subtract(posStart).normalize()#.multiply(7)
+            vel = posEnd.subtract(posStart).normalize().multiply(7)
             self.attack.append(Bullet(posStart, vel))
             self.timer = self.cooldown
 
@@ -72,7 +72,7 @@ class Knife(Weapon):
     #   hit box movement(the line itself)
 
 class Pistol(Weapon):
-    def __init__(self, d=25, cd=45, name=""):
+    def __init__(self, d=25, cd=75, name=""):
         super().__init__(d, cd, name)
 
 class Bullet:

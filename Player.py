@@ -3,9 +3,9 @@ from Vector import Vector
 from Weapon import Knife, Pistol
 
 class Player(Actor): #control self
-    def __init__(self, pos=Vector(), health=100, weapon=Pistol(), speed=2, colour="White", lives=3, vel=Vector()):
+    def __init__(self, pos=Vector(), health=100, weapon = Pistol(), speed=2, colour="White", lives=3, vel=Vector()):
         self.lives = lives
-        super().__init__(pos, vel, health, weapon, speed, colour)
+        super().__init__(pos, health, weapon, speed, colour, vel)
 
     def __str__(self):
         return str(self.lives) + super().__str__()

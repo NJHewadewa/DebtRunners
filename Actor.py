@@ -2,7 +2,7 @@ from Vector import Vector
 from Weapon import Weapon, Pistol
 
 class Actor: #extend body
-    def __init__(self, pos=Vector(), vel=Vector(), h=100, w=Weapon(), speed=0, colour="Red", size=10):
+    def __init__(self, pos=Vector(), h=100, w=Pistol(), speed=0, colour="Red", vel=Vector(), size=10):
         self.pos = pos
         self.vel = vel
         self.health = h
