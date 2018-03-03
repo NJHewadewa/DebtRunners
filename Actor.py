@@ -1,13 +1,14 @@
 from Vector import Vector
 from Weapon import Weapon, Pistol
 
-class Actor:
-    def __init__(self, pos=Vector(), vel=Vector(), h=100, w=Weapon(), speed=0, size=10):
+class Actor: #extend body
+    def __init__(self, pos=Vector(), vel=Vector(), h=100, w=Weapon(), speed=0, colour="Red", size=10):
         self.pos = pos
         self.vel = vel
         self.health = h
         self.weapon = w
         self.speed = speed
+        self.colour = colour
         self.size = size
 
     def damage(self, x=0):
@@ -22,8 +23,8 @@ class Actor:
         self.vel.multiply(0.6)
 
     def draw(self, canvas):
-        canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", "White")
         self.weapon.draw(canvas)
+        canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", self.colour)
 
 
     def __str__(self):

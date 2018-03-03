@@ -20,9 +20,9 @@ class Weapon:
         # in special cases, such as spinning bullet, we can always build a new
         # structure but for now lets keep it simple.
 
-    def addAttack(self, posStart=Vector(), posEnd=Vector()):
+    def addAttack(self, posEnd=Vector(), posStart=Vector()):
         if self.timer <= 0:
-            vel = posEnd.copy().subtract(posStart).normalize().multiply(10)
+            vel = posEnd.subtract(posStart).normalize()#.multiply(7)
             self.attack.append(Bullet(posStart, vel))
             self.timer = self.cooldown
 
@@ -39,7 +39,7 @@ class Weapon:
 
     def update(self, mousepos, playerpos):
         #if weapon is being held
-        self.pos = mousepos.subtract(playerpos).getNormalized().multiply(9).add(playerpos)
+        self.pos = mousepos.subtract(playerpos).normalize().multiply(9).add(playerpos)
         #else update position with velocity of it being thrown
         #####HERE#####
         #Update all bullets fired by the gun
@@ -68,6 +68,8 @@ class Knife(Weapon):
     #    super().draw(canvas)
     #
     # def update(self):
+    #   pos based cos sin
+    #   hit box movement(the line itself)
 
 class Pistol(Weapon):
     def __init__(self, d=25, cd=45, name=""):

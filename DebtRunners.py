@@ -1,6 +1,7 @@
 from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
 import pygame
 from Player import Player
+from Enemy import Enemy
 from Vector import Vector
 
 class Game:
@@ -9,6 +10,7 @@ class Game:
         self.CANVAS_HEIGHT = h
         self.pointer = Vector()
         self.initialise()
+        self.wave1()
         frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
         frame.set_draw_handler(self.draw)
         frame.set_keydown_handler(self.kbd.keyDown)
@@ -21,20 +23,38 @@ class Game:
         self.kbd = Keyboard()
         self.player = Player(Vector(self.CANVAS_WIDTH/2, self.CANVAS_HEIGHT/4*3))
         self.move = Movement(self.player, self.kbd)
+        self.enemies = []
+        self.enemies.append(Enemy(Vector(300, 200)))
+
+    def wave1(self):
+        for e in range(3):
+            self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH/4*(e+1), self.CANVAS_HEIGHT/4)))
+
 
     def draw(self, canvas):
         #UPDATE CHARS
         self.move.update()
-        self.player.update()
-        self.player.weapon.update(self.mouse.pos, self.player.pos)
+        self.player.update(self.mouse.pos.copy())
         self.mouse.update()
+        for enemy in self.enemies:
+            #temp shooting place
+            enemy.update(self.player.pos.copy())
+            enemy.draw(canvas)
+            enemy.weapon.addAttack(self.player.pos.copy(), enemy.weapon.pos.copy())
+        #self.enemies[0].weapon.addAttack(self.player.pos.copy(), self.enemies[0].weapon.pos)
+        for enemy in self.enemies:
+            for bullet in enemy.weapon.attack:
+                if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20:
+                    enemy.weapon.removeAttack(bullet)
+
+                if bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
+                    enemy.weapon.removeAttack(bullet)
         #DRAW CHARS HERE
-        self.player.weapon.draw(canvas)
         self.player.draw(canvas)
-        print(self.player.weapon.cooldown)
+        print(self.player.pos)
 
     def click(self, pos):
-        self.player.weapon.addAttack(self.player.weapon.pos, self.mouse.pos)
+        self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
 
 class Mouse:
     def __init__(self):
@@ -76,24 +96,28 @@ class Keyboard:
         if key == simplegui.KEY_MAP['S']:
             self.down = False
 
-class Movement:
+class Movement(): #solver
     def __init__(self, player, keyboard):
         self.player = player
         self.keyboard = keyboard
 
     def update(self):
+        vel = Vector()
+        if self.keyboard.up:
+            vel = vel.add(Vector(0, -1))
+
         if self.keyboard.right:
-            self.player.vel.add(Vector(1, 0).multiply(self.player.speed))
+            vel = vel.add(Vector(1, 0))
 
         if self.keyboard.left:
-            self.player.vel.add(Vector(-1, 0).multiply(self.player.speed))
-
-        if self.keyboard.up:
-            self.player.vel.add(Vector(0, -1).multiply(self.player.speed))
+            vel = vel.add(Vector(-1, 0))
 
         if self.keyboard.down:
-            self.player.vel.add(Vector(0, 1).multiply(self.player.speed))
+            vel = vel.add(Vector(0, 1))
 
+        if self.keyboard.up or self.keyboard.down or self.keyboard.left or self.keyboard.right:
+            if not vel == Vector():
+                self.player.vel.add(vel.normalize().multiply(self.player.speed))
 
 game = Game()
 
