@@ -57,12 +57,6 @@ class Game:
                 if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
                     enemy.weapon.removeAttack(bullet)
 
-            # print('Bullet: ', bullet.pos)
-            # print('Enemy: ', self.enemies[1].pos.x)
-            # print('Enemy: ', self.enemies[1].pos.y)
-            # print('Bullet: ', bullet.pos.x)
-            # print('Enemy: ', self.enemies[1].pos.x)
-
         # This is for checking to see if the bullet is within the enemies hitbox.
         for bullet in self.player.weapon.attack:
             for enemyIndex in range(len(self.enemies)):
@@ -72,16 +66,13 @@ class Game:
                         bullet.pos.y > (self.enemies[enemyIndex].pos.y - self.enemies[enemyIndex].size)):
 
                     # Subtracting damamge from enemies health
-                    self.enemies[enemyIndex].health -= self.player.weapon.damage
-
-                    # Removing the enemey from the enimies array. DOES NOT WORK YET.
-                    # Possible solution, just make the value blank instead of deleting it,
-                    # so that when the wave is over we can just check to see if all items in the enemy array are a certain value that we'll check for.
-                    #if self.enemies[enemyIndex].health <= 0:
-                    #    self.enemies.pop(enemyIndex)
+                    self.enemies[enemyIndex].damage(self.player.weapon.damage)
 
                     # Removing bullet, so that it does not go through the enemy
                     self.player.weapon.removeAttack(bullet)
+                    
+                    if self.killCheck(self.enemies[enemyIndex]):
+                        break
                     print('Enemy Hit!')
 
         for enemy in self.enemies:
@@ -103,6 +94,12 @@ class Game:
     def click(self, pos):
         self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
 
+    def killCheck(self, enemy):
+        kill = False
+        if enemy.health <= 0:
+            kill = True
+            self.enemies.remove(enemy)
+        return kill
 
 class Mouse:
     def __init__(self):
