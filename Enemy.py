@@ -12,6 +12,3 @@ class Enemy(Actor):
     def update(self, playerpos):
         self.weapon.update(playerpos, self.pos.copy())
         super().update()
-
-    # def update(self, playerpos):
-    #     self.weapon.update(self.pos, Vector(10,10))
