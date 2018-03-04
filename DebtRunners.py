@@ -77,8 +77,8 @@ class Game:
                     # Removing the enemey from the enimies array. DOES NOT WORK YET.
                     # Possible solution, just make the value blank instead of deleting it,
                     # so that when the wave is over we can just check to see if all items in the enemy array are a certain value that we'll check for.
-                    if self.enemies[enemyIndex].health <= 0:
-                        self.enemies.pop(enemyIndex)
+                    #if self.enemies[enemyIndex].health <= 0:
+                    #    self.enemies.pop(enemyIndex)
 
                     # Removing bullet, so that it does not go through the enemy
                     self.player.weapon.removeAttack(bullet)
