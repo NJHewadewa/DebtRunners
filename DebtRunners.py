@@ -71,6 +71,7 @@ class Game:
                     # Removing bullet, so that it does not go through the enemy
                     self.player.weapon.removeAttack(bullet)
 
+                    # Removing enemies from list enemy list
                     if self.killCheck(self.enemies[enemyIndex]):
                         break
                     print('Enemy Hit!')
@@ -81,9 +82,18 @@ class Game:
                         bullet.pos.x > (self.player.pos.x - self.player.size)) and (
                         bullet.pos.y < (self.player.pos.y + self.player.size)) and (
                         bullet.pos.y > (self.player.pos.y - self.player.size)):
+
+                    # Decreasing player health when bullet lands
+                    self.player.damage(enemy.weapon.damage)
+                    print(self.player.health)
+
+                    # Removing the bullet so that is does not go though the enemy
                     enemy.weapon.removeAttack(bullet)
                     print("Player hit!")
-                    print()
+
+
+
+
 
         # DRAW CHARS HERE
         self.player.draw(canvas)
@@ -101,6 +111,7 @@ class Game:
             kill = True
             self.enemies.remove(enemy)
         return kill
+
 
 class Mouse:
     def __init__(self):
