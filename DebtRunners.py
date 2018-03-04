@@ -81,6 +81,7 @@ class Game:
                         bullet.pos.x > (self.player.pos.x - self.player.size)) and (
                         bullet.pos.y < (self.player.pos.y + self.player.size)) and (
                         bullet.pos.y > (self.player.pos.y - self.player.size)):
+                    self.player.damage(enemy.weapon.damage)
                     enemy.weapon.removeAttack(bullet)
                     print("Player hit!")
 
