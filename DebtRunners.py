@@ -84,6 +84,7 @@ class Game:
                     self.player.damage(enemy.weapon.damage)
                     enemy.weapon.removeAttack(bullet)
                     print("Player hit!")
+                    print()
 
         # DRAW CHARS HERE
         self.player.draw(canvas)
