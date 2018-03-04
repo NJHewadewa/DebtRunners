@@ -31,8 +31,8 @@ class Game:
 
     def wave1(self):
         for e in range(3):
-            #Assigns the enemies different positions, health and a new weapon
-            self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH/4*(e+1), self.CANVAS_HEIGHT/4), 10, Pistol()))
+            # Assigns the enemies different positions, health and a new weapon
+            self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
 
     def draw(self, canvas):
         # UPDATE CHARS
@@ -63,13 +63,24 @@ class Game:
             # print('Bullet: ', bullet.pos.x)
             # print('Enemy: ', self.enemies[1].pos.x)
 
-        #This is for checking to see if the bullet is within the enemies hitbox.
+        # This is for checking to see if the bullet is within the enemies hitbox.
         for bullet in self.player.weapon.attack:
-            for enemyIndex in range (len(self.enemies)):
+            for enemyIndex in range(len(self.enemies)):
                 if (bullet.pos.x < (self.enemies[enemyIndex].pos.x + self.enemies[enemyIndex].size)) and (
                         bullet.pos.x > (self.enemies[enemyIndex].pos.x - self.enemies[enemyIndex].size)) and (
                         bullet.pos.y < (self.enemies[enemyIndex].pos.y + self.enemies[enemyIndex].size)) and (
                         bullet.pos.y > (self.enemies[enemyIndex].pos.y - self.enemies[enemyIndex].size)):
+
+                    # Subtracting damamge from enemies health
+                    self.enemies[enemyIndex].health -= self.player.weapon.damage
+
+                    # Removing the enemey from the enimies array. DOES NOT WORK YET.
+                    # Possible solution, just make the value blank instead of deleting it,
+                    # so that when the wave is over we can just check to see if all items in the enemy array are a certain value that we'll check for.
+                    if self.enemies[enemyIndex].health <= 0:
+                        self.enemies.pop(enemyIndex)
+
+                    # Removing bullet, so that it does not go through the enemy
                     self.player.weapon.removeAttack(bullet)
                     print('Enemy Hit!')
 
@@ -85,9 +96,9 @@ class Game:
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
-        #Debug print
-        #print(self.player.pos)
-        #print(self.player.weapon)
+        # Debug print
+        # print(self.player.pos)
+        # print(self.player.weapon)
 
     def click(self, pos):
         self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
