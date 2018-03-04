@@ -70,7 +70,7 @@ class Game:
 
                     # Removing bullet, so that it does not go through the enemy
                     self.player.weapon.removeAttack(bullet)
-                    
+
                     if self.killCheck(self.enemies[enemyIndex]):
                         break
                     print('Enemy Hit!')

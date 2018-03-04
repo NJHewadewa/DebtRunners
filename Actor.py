@@ -16,7 +16,8 @@ class Actor: #extend body
             self.health -= x
 
     def heal(self, x=0):
-        pass
+        if x > 0:
+            self.health += x
 
     def update(self):
         self.pos.add(self.vel)
