@@ -89,15 +89,10 @@ class Game:
                     print(self.player.health)
 
                     # Removing the bullet so that is does not go though the enemy
-
-
                     self.player.damage(enemy.weapon.damage)
 
                     enemy.weapon.removeAttack(bullet)
                     print("Player hit!")
-
-
-
 
 
         # DRAW CHARS HERE
