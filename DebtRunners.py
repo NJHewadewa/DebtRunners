@@ -83,11 +83,16 @@ class Game:
                         bullet.pos.y < (self.player.pos.y + self.player.size)) and (
                         bullet.pos.y > (self.player.pos.y - self.player.size)):
 
+
                     # Decreasing player health when bullet lands
                     self.player.damage(enemy.weapon.damage)
                     print(self.player.health)
 
                     # Removing the bullet so that is does not go though the enemy
+
+
+                    self.player.damage(enemy.weapon.damage)
+
                     enemy.weapon.removeAttack(bullet)
                     print("Player hit!")
 
