@@ -83,6 +83,7 @@ class Game:
                         bullet.pos.y > (self.player.pos.y - self.player.size)):
                     enemy.weapon.removeAttack(bullet)
                     print("Player hit!")
+                    print()
 
         # DRAW CHARS HERE
         self.player.draw(canvas)
