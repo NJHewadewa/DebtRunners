@@ -1,8 +1,10 @@
+
 from Vector import Vector
 
 class Weapon:
-    def __init__(self, d=20, cd=60, name="", pos=Vector()):
+    def __init__(self, d=20, bulletSpeed=7,cd=60, name="", pos=Vector()):
         self.damage = d
+        self.bulletSpeed = bulletSpeed
         self.cooldown = cd
         self.name = name
         self.timer = 0
@@ -22,7 +24,7 @@ class Weapon:
 
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         if self.timer <= 0:
-            vel = posEnd.subtract(posStart).normalize().multiply(7)
+            vel = posEnd.subtract(posStart).normalize().multiply(self.bulletSpeed)
             self.attack.append(Bullet(posStart, vel))
             self.timer = self.cooldown
 
@@ -72,8 +74,8 @@ class Knife(Weapon):
     #   hit box movement(the line itself)
 
 class Pistol(Weapon):
-    def __init__(self, d=25, cd=75, name=""):
-        super().__init__(d, cd, name)
+    def __init__(self, d=25,sp=7, cd=75, name=""):
+        super().__init__(d, sp,cd, name)
 
 class Bullet:
     def __init__(self, pos=Vector(), vel=Vector()):
