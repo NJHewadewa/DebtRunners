@@ -1,10 +1,11 @@
 from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
-import pygame
+import pygame, sys
 from Player import Player
 from Enemy import Enemy
 from Vector import Vector
 from Weapon import Pistol
-
+from MainMenu import Menu_item
+pygame.init()
 
 class Game:
     def __init__(self, w=600, h=400):
@@ -12,6 +13,34 @@ class Game:
         self.CANVAS_HEIGHT = h
         self.pointer = Vector()
         self.initialise()
+        self.state = State()
+        self.first = True
+
+        screen = pygame.display.set_mode((640, 480))
+
+        screen.fill((100, 50, 150))  # Background colour
+
+        menu_font = pygame.font.Font(None, 40)
+
+        menu_items = [Menu_item("Play Game", (140, 105)),
+                      Menu_item("Instructions", (140, 155)),
+                      Menu_item("Exit", (140, 205))]
+
+        while self.first == True:
+            for event in pygame.event.get():
+                for menu_item in menu_items:
+                    if menu_item.rect.collidepoint(pygame.mouse.get_pos()):
+                        menu_item.hovered = True
+                        if menu_item.text == "Play Game" and event.type == pygame.MOUSEBUTTONDOWN:
+                            print("Play Game")
+                            self.first = False
+                        elif menu_item.text == "Exit" and event.type == pygame.MOUSEBUTTONDOWN:
+                            sys.exit()
+                    else:
+                        menu_item.hovered = False
+                    menu_item.draw()
+
+                pygame.display.update()
 
         self.wave1()
 
@@ -185,6 +214,21 @@ class Interaction():
 
     def update(self):
         pass
+
+
+class State():
+    def __init__(self):
+        self.start = True
+        self.round1 = False
+        self.over = False
+
+    def startGame(self):
+        if self.start:
+            self.start = False
+            self.round1 = True
+
+    def gameOver(self):
+        self.over = True
 
 
 game = Game()
