@@ -64,5 +64,3 @@ while True:
                 menu_item.hovered = False
             menu_item.draw()
         pygame.display.update()
-#
-windowSurfaceObj.blit(catSurfaceObj, (mousex, mousey))

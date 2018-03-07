@@ -1,26 +1,31 @@
 from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
-import pygame
+import pygame, sys
 from Player import Player
 from Enemy import Enemy
 from Vector import Vector
 from Weapon import Pistol
-
-
+#from MainMenu import*
 class Game:
     def __init__(self, w=600, h=400):
         self.CANVAS_WIDTH = w
         self.CANVAS_HEIGHT = h
         self.pointer = Vector()
         self.initialise()
+        self.state = State()
+        self.waveCount = 1
 
-        self.wave1()
+        if self.state.start:
+            #Setting the first round to 1
+            self.state.round(1)
+            self.waves()
 
-        frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
-        frame.set_draw_handler(self.draw)
-        frame.set_keydown_handler(self.kbd.keyDown)
-        frame.set_keyup_handler(self.kbd.keyUp)
-        frame.set_mouseclick_handler(self.click)
-        frame.start()
+            frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
+            frame.set_draw_handler(self.draw)
+            frame.set_keydown_handler(self.kbd.keyDown)
+            frame.set_keyup_handler(self.kbd.keyUp)
+            frame.set_mouseclick_handler(self.click)
+            frame.start()
+
 
     def initialise(self):
         self.mouse = Mouse()
@@ -29,10 +34,18 @@ class Game:
         self.move = Movement(self.player, self.kbd)
         self.enemies = []
 
-    def wave1(self):
-        for e in range(3):#3 is number of enemies
-            # Assigns the enemies different positions, health and a new weapon
-            self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
+    def waves(self):
+        # This will add the enimies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
+        if self.state.round1:
+            for e in range(3):#3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapon
+                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
+
+    # This will add the enemies to the list if round 2 is true, see State class
+        elif self.state.round2:
+            for e in range(2):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapon
+                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
 
     def draw(self, canvas):
         # UPDATE CHARS
@@ -74,7 +87,7 @@ class Game:
                     # Removing enemies from list enemy list
                     if self.killCheck(self.enemies[enemyIndex]):
                         break
-                    print('Enemy Hit!')
+
 
         for enemy in self.enemies:
             for bullet in enemy.weapon.attack:
@@ -86,21 +99,25 @@ class Game:
 
                     # Decreasing player health when bullet lands
                     self.player.damage(enemy.weapon.damage)
-                    print(self.player.health)
+                    #print(self.player.health)
 
                     # Removing the bullet so that is does not go though the enemy
                     self.player.damage(enemy.weapon.damage)
 
                     enemy.weapon.removeAttack(bullet)
-                    print("Player hit!")
+                    #print("Player hit!")
 
 
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
-        # Debug print
-        # print(self.player.pos)
-        # print(self.player.weapon)
+        #Seeing if the enemies array is empty, if so than increase the round counter by 1, change the state, then run the waves function again. Which will then load in round 2 enemies
+        if len(self.enemies) == 0:
+            self.waveCount+=1
+            self.state.round(self.waveCount)
+            self.waves()
+
+
 
     def click(self, pos):
         self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
@@ -155,7 +172,7 @@ class Keyboard:
             self.down = False
 
 
-class Movement():  # solver
+class Movement:  # solver
     def __init__(self, player, keyboard):
         self.player = player
         self.keyboard = keyboard
@@ -179,12 +196,43 @@ class Movement():  # solver
                 self.player.vel.add(vel.normalize().multiply(self.player.speed))
 
 
-class Interaction():
+class Interaction:
     def __init__(self, ):
         pass
 
     def update(self):
         pass
+
+
+class State:
+    def __init__(self):
+        self.start = True
+        self.round1 = False
+        self.round2 = False
+        self.over = False
+
+    # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
+    def startGame(self):
+        self.start = True
+
+    # Turning the variable that are used to determine which round is currently going, on and off.
+    def round(self, waveNum):
+        # In the beginning I set waveNum to 1, which then sets round1 to true, which will then spawn in the round one enemies.
+        if waveNum == 1:
+            self.round1 = True
+        # After all the enemies from the previous round are gone, are then set that rounds variable to false and the new round variable to true.
+        elif waveNum == 2:
+            self.round1 = False
+            self.round2 = True
+        #Commented out because we haven't decided what round we want to go up to.One we figure that out, I can then complete this step.
+        # elif waveNum == 3:
+        #     self.round2 = False
+        #     self.round3 = True
+
+    #When the game is over, this then sets over to true and the game will display a screen wtih the score on. This is for if the player dies, not if the player completes the game
+    #that is a different function that I will eventually do.
+    def gameOver(self):
+        self.over = True
 
 
 game = Game()
