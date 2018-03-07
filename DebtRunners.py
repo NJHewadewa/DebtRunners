@@ -38,7 +38,6 @@ class Game:
 
 
     def wave1(self):
-        pass
         for e in range(3):#3 is number of enemies
             # Assigns the enemies different positions, health and a new weapon
             self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
