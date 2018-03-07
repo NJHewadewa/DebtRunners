@@ -25,7 +25,7 @@ class Weapon:
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         if self.timer <= 0:
             vel = posEnd.subtract(posStart).normalize().multiply(self.bulletSpeed)
-            self.attack.append(Bullet(posStart, vel))
+            self.attack.append(Bullet(posStart.copy(), vel.copy()))
             self.timer = self.cooldown
 
     def removeAttack(self, attack):
@@ -38,6 +38,7 @@ class Weapon:
             canvas.draw_circle(self.pos.getP(), 5, 1, "Green", "Green")
         for a in self.attack:
             canvas.draw_circle(a.pos.getP(), 2, 1, "Blue", "Blue")
+            #these are the bullets being drawn
 
     def update(self, mousepos, playerpos):
         #if weapon is being held
@@ -46,8 +47,11 @@ class Weapon:
         #####HERE#####
         #Update all bullets fired by the gun
         for a in self.attack:
-            a.update()
+            a.update(self.attack.index(a))
+
         self.manageCooldown()
+
+
 
     def manageCooldown(self):
         if self.timer < 0:
@@ -77,11 +81,41 @@ class Pistol(Weapon):
     def __init__(self, d=25,sp=7, cd=75, name=""):
         super().__init__(d, sp,cd, name)
 
+class AutoRifle(Weapon):
+    def __init__(self, d=15,sp=10,cd=10,name=""):
+        super().__init__(d,sp,cd,name)
+
+class Shotgun(Weapon):
+    def __init__(self, d=15,sp=5,cd=100,name=""):
+        super().__init__(d,sp,cd,name)
+
+    def addAttack(self, mousePos=Vector(), playerPos=Vector()):
+        if self.timer <= 0:
+
+            vel = mousePos.copy().subtract(playerPos).normalize().multiply(self.bulletSpeed)
+            self.attack.append(Bullet(playerPos.copy(), vel.copy()))
+            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(5)
+            self.attack.append(Bullet(playerPos.copy(),vel.copy()))
+            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(-5)
+            self.attack.append(Bullet(playerPos.copy(),vel.copy()))
+
+            self.thegodofallDebugs()
+            self.timer = self.cooldown
+
+    def thegodofallDebugs(self):
+        for a in self.attack:
+            print("Index: " + str(self.attack.index(a)))
+            print("Position: ", end='')
+            print(a.pos.getP())
+            print("Velocity: ", end='')
+            print(a.vel.getP())
+
 class Bullet:
     def __init__(self, pos=Vector(), vel=Vector()):
         self.pos = pos
         self.vel = vel
 
-    def update(self):
+    def update(self,index):
         self.pos.add(self.vel)
+
 
