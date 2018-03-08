@@ -3,8 +3,12 @@ import pygame, sys
 from Player import Player
 from Enemy import Enemy
 from Vector import Vector
+
 from Weapon import Pistol
 #from MainMenu import*
+from Weapon import Weapon, Pistol, AutoRifle, Shotgun
+from Pickup import WeaponPickup, ValuePickeup, Pickup
+
 class Game:
     def __init__(self, w=600, h=400):
         self.CANVAS_WIDTH = w
@@ -23,6 +27,7 @@ class Game:
             frame.set_keydown_handler(self.kbd.keyDown)
             frame.set_keyup_handler(self.kbd.keyUp)
             frame.set_mouseclick_handler(self.click)
+            frame.set_canvas_background('Gray')
             frame.start()
 
 
@@ -32,6 +37,12 @@ class Game:
         self.player = Player(Vector(self.CANVAS_WIDTH / 2, self.CANVAS_HEIGHT / 4 * 3))
         self.move = Movement(self.player, self.kbd)
         self.enemies = []
+        self.AR = AutoRifle()
+        self.SG = Shotgun()
+
+        self.ak47 = WeaponPickup(self.AR,self.player,Vector(100,50),60,60,'https://image.ibb.co/hQ4eA7/ak47.png')
+        self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png')
+
 
     def waves(self):
         # This will add the enimies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
@@ -101,12 +112,16 @@ class Game:
                     #print(self.player.health)
 
                     # Removing the bullet so that is does not go though the enemy
-                    self.player.damage(enemy.weapon.damage)
+                    self.player.damage(enemy.weapon.damage)  #duplicate code?
 
                     enemy.weapon.removeAttack(bullet)
                     #print("Player hit!")
 
 
+        self.ak47.draw(canvas) #make a list of pickups to call both draw and update methods of all pickups so less code
+        self.ak47.update()
+        self.shotgun.draw(canvas)
+        self.shotgun.update()
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
@@ -194,7 +209,8 @@ class Movement:  # solver
                 self.player.vel.add(vel.normalize().multiply(self.player.speed))
 
 
-class Interaction:
+
+class Interaction: #to avoid repetitive code, add the method to check if (x collided with y)
     def __init__(self, ):
         pass
 
