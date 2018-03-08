@@ -11,17 +11,6 @@ class Weapon:
         self.pos = pos
         self.attack = []
 
-
-        # needs to fire a particular bullet (is string variable correct?)
-        # self.bullet = ""
-        # also could have gun.name which would give us a good model for bullet
-        # In other words:
-        #     if gun == Pistol/AssualtRifle/SniperRifle:
-        #         bullet.caliber = "light/medium/heavy"
-        #
-        # in special cases, such as spinning bullet, we can always build a new
-        # structure but for now lets keep it simple.
-
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         if self.timer <= 0:
             vel = posEnd.subtract(posStart).normalize().multiply(self.bulletSpeed)
@@ -47,7 +36,7 @@ class Weapon:
         #####HERE#####
         #Update all bullets fired by the gun
         for a in self.attack:
-            a.update(self.attack.index(a))
+            a.update()
 
         self.manageCooldown()
 
@@ -62,6 +51,12 @@ class Weapon:
 class Knife(Weapon):
     def __init__(self, name="", d=25):
         super().__init__(name, d)
+
+    def addAttack(self, posEnd=Vector(), posStart=Vector()):
+        pass
+
+        #if enemy is in range
+        #take damage from enemy(s)
 
     # def addAttack(self, pos=Vector(), vel=Vector(5, 0)):
     #     self.attack.append(Bullet(pos, vel))
@@ -115,7 +110,7 @@ class Bullet:
         self.pos = pos
         self.vel = vel
 
-    def update(self,index):
+    def update(self):
         self.pos.add(self.vel)
 
 
