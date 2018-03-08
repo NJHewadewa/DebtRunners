@@ -27,7 +27,7 @@ class Game:
             frame.set_keydown_handler(self.kbd.keyDown)
             frame.set_keyup_handler(self.kbd.keyUp)
             frame.set_mouseclick_handler(self.click)
-            frame.set_canvas_background('Gray')
+            #frame.set_canvas_background('Gray')
             frame.start()
 
 
@@ -45,6 +45,10 @@ class Game:
         self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png',self.items)
         self.items.append(self.ak47)
         self.items.append(self.shotgun)
+
+        # Loading in the background image from the github, since I can't do it locally at the moment.
+        self.backgroundImage = simplegui.load_image('https://raw.githubusercontent.com/NJHewadewa/DebtRunners/7a447d1331a54688a1903ae9a3ba069a09aebba5/Sprites/backgorun.png')
+
 
     def waves(self):
         # This will add the enimies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
@@ -64,6 +68,10 @@ class Game:
         self.move.update()
         self.player.update(self.mouse.pos.copy())
         self.mouse.update()
+
+        # Displaying the background image on the screen.
+        # Format: ( Image name, center of image, image dimensions, canvas center, canvas dimensions.)
+        canvas.draw_image(self.backgroundImage,(450,450),(900,900),(self.CANVAS_WIDTH/2,self.CANVAS_HEIGHT/2),(self.CANVAS_WIDTH, self.CANVAS_HEIGHT))
 
         # Draw and update enemies
         for enemy in self.enemies:
