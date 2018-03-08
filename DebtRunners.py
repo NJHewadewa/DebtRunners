@@ -30,12 +30,14 @@ class Game:
         self.player = Player(Vector(self.CANVAS_WIDTH / 2, self.CANVAS_HEIGHT / 4 * 3))
         self.move = Movement(self.player, self.kbd)
         self.enemies = []
+        self.items = []
         self.AR = AutoRifle()
         self.SG = Shotgun()
 
-        self.ak47 = WeaponPickup(self.AR,self.player,Vector(100,50),60,60,'https://image.ibb.co/hQ4eA7/ak47.png')
-        self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png')
-
+        self.ak47 = WeaponPickup(self.AR,self.player,Vector(100,50),60,60,'https://image.ibb.co/hQ4eA7/ak47.png',self.items)
+        self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png',self.items)
+        self.items.append(self.ak47)
+        self.items.append(self.shotgun)
 
     def wave1(self):
         for e in range(3):#3 is number of enemies
@@ -103,10 +105,10 @@ class Game:
                     print("Player hit!")
 
 
-        self.ak47.draw(canvas) #make a list of pickups to call both draw and update methods of all pickups so less code
-        self.ak47.update()
-        self.shotgun.draw(canvas)
-        self.shotgun.update()
+        for item in self.items:
+            item.draw(canvas)
+            item.update()
+
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
