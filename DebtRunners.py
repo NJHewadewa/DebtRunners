@@ -8,7 +8,7 @@ from Pickup import WeaponPickup, ValuePickeup, Pickup
 
 
 class Game:
-    def __init__(self, w=600, h=400):
+    def __init__(self, w=1200, h=700):
         self.CANVAS_WIDTH = w
         self.CANVAS_HEIGHT = h
         self.pointer = Vector()

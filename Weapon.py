@@ -94,9 +94,9 @@ class Shotgun(Weapon):
 
             vel = mousePos.copy().subtract(playerPos).normalize().multiply(self.bulletSpeed)
             self.attack.append(Bullet(playerPos.copy(), vel.copy()))
-            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(5)
+            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(7)
             self.attack.append(Bullet(playerPos.copy(),vel.copy()))
-            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(-5)
+            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(-7)
             self.attack.append(Bullet(playerPos.copy(),vel.copy()))
 
             self.thegodofallDebugs()
