@@ -4,9 +4,9 @@ from Player import Player
 from Enemy import Enemy
 from Vector import Vector
 
-from Weapon import Pistol
+
 #from MainMenu import*
-from Weapon import Weapon, Pistol, AutoRifle, Shotgun
+from Weapon import Weapon, Pistol, AutoRifle, Shotgun, Knife
 from Pickup import WeaponPickup, ValuePickeup, Pickup
 
 class Game:
@@ -38,14 +38,15 @@ class Game:
         self.move = Movement(self.player, self.kbd)
         self.enemies = []
         self.items = []
-        self.AR = AutoRifle()
-        self.SG = Shotgun()
-
+        self.AR = AutoRifle(self.enemies)
+        self.SG = Shotgun(self.enemies)
+        self.melee = Knife(self.enemies)
+        self.knife = WeaponPickup(self.melee,self.player,Vector(100,300),60,60,'https://image.ibb.co/kLzxDS/knife.png',self.items)
         self.ak47 = WeaponPickup(self.AR,self.player,Vector(100,50),60,60,'https://image.ibb.co/hQ4eA7/ak47.png',self.items)
         self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png',self.items)
         self.items.append(self.ak47)
         self.items.append(self.shotgun)
-
+        self.items.append(self.knife)
         # Loading in the background image from the github, since I can't do it locally at the moment.
         self.backgroundImage = simplegui.load_image('https://raw.githubusercontent.com/NJHewadewa/DebtRunners/7a447d1331a54688a1903ae9a3ba069a09aebba5/Sprites/backgorun.png')
 
@@ -98,7 +99,7 @@ class Game:
                         bullet.pos.y < (self.enemies[enemyIndex].pos.y + self.enemies[enemyIndex].size)) and (
                         bullet.pos.y > (self.enemies[enemyIndex].pos.y - self.enemies[enemyIndex].size)):
 
-                    # Subtracting damamge from enemies health
+                    # Subtracting damage from enemies health
                     self.enemies[enemyIndex].damage(self.player.weapon.damage)
 
                     # Removing bullet, so that it does not go through the enemy
