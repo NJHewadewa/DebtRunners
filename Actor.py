@@ -27,6 +27,11 @@ class Actor: #extend body
         self.weapon.draw(canvas)
         canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", self.colour)
 
+    def killCheck(self, enemy):
+        kill = False
+        if enemy.health <= 0:
+            kill = True
+        return kill
 
     def __str__(self):
         return str(self.health) + self.weapon + str(self.speed) + str(self.size)

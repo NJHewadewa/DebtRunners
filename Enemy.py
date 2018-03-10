@@ -12,3 +12,6 @@ class Enemy(Actor):
     def update(self, playerpos):
         self.weapon.update(playerpos, self.pos.copy())
         super().update()
+
+    def range(self,other):
+        return self.pos.copy().subtract(other.pos.copy()).length()
