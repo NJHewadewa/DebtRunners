@@ -2,7 +2,7 @@
 from Vector import Vector
 
 class Weapon:
-    def __init__(self, enemies=[],d=20, bulletSpeed=7,cd=60, name="", pos=Vector()):
+    def __init__(self,d=20, bulletSpeed=7,cd=60, name="", pos=Vector()):
         self.damage = d
         self.bulletSpeed = bulletSpeed
         self.cooldown = cd
@@ -10,7 +10,6 @@ class Weapon:
         self.timer = 0
         self.pos = pos
         self.attack = []
-        self.enemies = enemies
 
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         if self.timer <= 0:
@@ -53,6 +52,7 @@ class Knife(Weapon):
     def __init__(self, enemies,name="", d=10):
         super().__init__(enemies,name, d)
         self.d = d
+        self.enemies = enemies
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         for enemy in self.enemies:
             if enemy.range(self) < 20:
@@ -63,16 +63,16 @@ class Knife(Weapon):
                     print('knife Hit!')
 
 class Pistol(Weapon):
-    def __init__(self,enemies=[], d=25,sp=7, cd=75, name=""):
-        super().__init__(enemies,d, sp,cd, name)
+    def __init__(self, d=25,sp=7, cd=75, name=""):
+        super().__init__(d, sp,cd, name)
 
 class AutoRifle(Weapon):
-    def __init__(self,enemies=[], d=15,sp=10,cd=10,name=""):
-        super().__init__(enemies,d,sp,cd,name)
+    def __init__(self, d=15,sp=10,cd=10,name=""):
+        super().__init__(d,sp,cd,name)
 
 class Shotgun(Weapon):
-    def __init__(self,enemies=[], d=15,sp=5,cd=100,name=""):
-        super().__init__(enemies,d,sp,cd,name)
+    def __init__(self, d=15,sp=5,cd=100,name=""):
+        super().__init__(d,sp,cd,name)
 
 
     def addAttack(self, mousePos=Vector(), playerPos=Vector()):
