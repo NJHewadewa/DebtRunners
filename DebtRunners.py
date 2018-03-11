@@ -58,11 +58,17 @@ class Game:
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
 
-    # This will add the enemies to the list if round 2 is true, see State class
         elif self.waveCount == 2:
             for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
+
+        elif self.waveCount == 3:
+            for e in range(3):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapon
+                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100,AutoRifle()))
+        else:
+            self.state.playerWin()
 
 
     def draw(self, canvas):
@@ -147,6 +153,14 @@ class Game:
             self.waves()
             self.newWave = True
 
+        # These two if statements must be in this order for the death screen to come up.
+        if self.state.over:
+            time.sleep(5)
+            quit()
+
+        if self.player.lives == 0:
+            self.state.gameOver()
+            canvas.draw_text('bankrupted',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
 
 
     def click(self, pos):
@@ -255,5 +269,7 @@ class State:
     def gameOver(self):
         self.over = True
 
+    def playerWin(self):
+        self.winner = True
 
 game = Game()
