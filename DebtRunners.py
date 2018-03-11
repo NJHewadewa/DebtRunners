@@ -54,7 +54,7 @@ class Game:
     def waves(self):
         # This will add the enemies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
         if self.waveCount == 1:
-            for e in range(1):#3 is number of enemies
+            for e in range(3):#3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
 
