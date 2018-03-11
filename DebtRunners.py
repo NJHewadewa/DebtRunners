@@ -90,7 +90,7 @@ class Game:
                         bullet.pos.y < (self.enemies[enemyIndex].pos.y + self.enemies[enemyIndex].size)) and (
                         bullet.pos.y > (self.enemies[enemyIndex].pos.y - self.enemies[enemyIndex].size)):
 
-                    # Subtracting damamge from enemies health
+                    # Subtracting damage from enemies health
                     self.enemies[enemyIndex].damage(self.player.weapon.damage)
 
                     # Removing bullet, so that it does not go through the enemy

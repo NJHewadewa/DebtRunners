@@ -24,9 +24,9 @@ class Weapon:
         if type(self) is Knife:
             pass
         else:
-            canvas.draw_circle(self.pos.getP(), 5, 1, "Green", "Green")
+            canvas.draw_circle(self.pos.getP(), 9, 1, "Green", "Green")
         for a in self.attack:
-            canvas.draw_circle(a.pos.getP(), 2, 1, "Blue", "Blue")
+            canvas.draw_circle(a.pos.getP(), 4, 1, "Blue", "Blue")
             #these are the bullets being drawn
 
     def update(self, mousepos, playerpos):

@@ -31,6 +31,7 @@ class WeaponPickup(Pickup): #pickup for the different type of weapons(AR, pistol
     def __init__(self,weapon,player,pos,xBox,yBox,filename, items):
         self.weapon = weapon
         super().__init__(player,pos,xBox,yBox,filename,items)
+
     def collisionDetected(self):
         print("Pickup has been picked up!")
         self.player.weapon = self.weapon
