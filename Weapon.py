@@ -2,7 +2,7 @@
 from Vector import Vector
 
 class Weapon:
-    def __init__(self, d=20, bulletSpeed=7,cd=60, name="", pos=Vector()):
+    def __init__(self,d=20, bulletSpeed=7,cd=60, name="", pos=Vector()):
         self.damage = d
         self.bulletSpeed = bulletSpeed
         self.cooldown = cd
@@ -49,28 +49,18 @@ class Weapon:
             self.timer -= 1
 
 class Knife(Weapon):
-    def __init__(self, name="", d=25):
-        super().__init__(name, d)
-
+    def __init__(self, enemies,name="", d=10):
+        super().__init__(enemies,name, d)
+        self.d = d
+        self.enemies = enemies
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
-        pass
-
-        #if enemy is in range
-        #take damage from enemy(s)
-
-    # def addAttack(self, pos=Vector(), vel=Vector(5, 0)):
-    #     self.attack.append(Bullet(pos, vel))
-    #
-    # def removeAttack(self, attack):
-    #     #Might remove the first item in the list marked bullet, HAVE TO TEST
-    #     self.attack.remove(attack)
-    #
-    # def draw(self, canvas):
-    #    super().draw(canvas)
-    #
-    # def update(self):
-    #   pos based cos sin
-    #   hit box movement(the line itself)
+        for enemy in self.enemies:
+            if enemy.range(self) < 20:
+                    enemy.damage(self.d)
+                    # Removing enemies from list enemy list
+                    if enemy.killCheck(enemy):
+                        self.enemies.remove(enemy)
+                    print('knife Hit!')
 
 class Pistol(Weapon):
     def __init__(self, d=25,sp=7, cd=75, name=""):
@@ -83,6 +73,7 @@ class AutoRifle(Weapon):
 class Shotgun(Weapon):
     def __init__(self, d=15,sp=5,cd=100,name=""):
         super().__init__(d,sp,cd,name)
+
 
     def addAttack(self, mousePos=Vector(), playerPos=Vector()):
         if self.timer <= 0:
