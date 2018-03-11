@@ -124,7 +124,8 @@ class Game:
 
                     # Decreasing player health when bullet lands
                     self.player.damage(enemy.weapon.damage)
-                    #print(self.player.health)
+                    self.livesCheck(self.player)
+
 
                     # Removing the bullet so that is does not go though the enemy
                     enemy.weapon.removeAttack(bullet)
@@ -157,6 +158,12 @@ class Game:
             kill = True
             self.enemies.remove(enemy)
         return kill
+
+    def livesCheck(self, player):
+        if player.health <= 0:
+            self.player.lives -= 1
+            self.player.health = 100
+            #print(self.player.lives)
 
 
 class Mouse:
