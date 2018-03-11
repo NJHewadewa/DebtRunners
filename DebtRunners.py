@@ -48,7 +48,7 @@ class Game:
         self.items.append(self.knife)
         self.newWave = False
         # Loading in the background image from the github, since I can't do it locally at the moment.
-        self.backgroundImage = simplegui.load_image('https://raw.githubusercontent.com/NJHewadewa/DebtRunners/7a447d1331a54688a1903ae9a3ba069a09aebba5/Sprites/parking.png')
+        self.backgroundImage = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/parking.png?raw=true')
 
 
     def waves(self):
