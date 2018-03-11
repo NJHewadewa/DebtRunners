@@ -26,7 +26,7 @@ class Game:
             self.frame.set_keydown_handler(self.kbd.keyDown)
             self.frame.set_keyup_handler(self.kbd.keyUp)
             self.frame.set_mouseclick_handler(self.click)
-            #frame.set_canvas_background('Gray')
+            self.frame.set_canvas_background('Gray')
             self.frame.start()
 
 
