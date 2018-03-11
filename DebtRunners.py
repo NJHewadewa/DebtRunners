@@ -21,13 +21,13 @@ class Game:
             #Setting the first round to 1
             self.waves()
 
-            frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
-            frame.set_draw_handler(self.draw)
-            frame.set_keydown_handler(self.kbd.keyDown)
-            frame.set_keyup_handler(self.kbd.keyUp)
-            frame.set_mouseclick_handler(self.click)
+            self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
+            self.frame.set_draw_handler(self.draw)
+            self.frame.set_keydown_handler(self.kbd.keyDown)
+            self.frame.set_keyup_handler(self.kbd.keyUp)
+            self.frame.set_mouseclick_handler(self.click)
             #frame.set_canvas_background('Gray')
-            frame.start()
+            self.frame.start()
 
 
     def initialise(self):
@@ -46,6 +46,7 @@ class Game:
         self.items.append(self.ak47)
         self.items.append(self.shotgun)
         self.items.append(self.knife)
+        self.newWave = False
         # Loading in the background image from the github, since I can't do it locally at the moment.
         self.backgroundImage = simplegui.load_image('https://raw.githubusercontent.com/NJHewadewa/DebtRunners/7a447d1331a54688a1903ae9a3ba069a09aebba5/Sprites/backgorun.png')
 
@@ -63,7 +64,11 @@ class Game:
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
 
+
     def draw(self, canvas):
+        if self.newWave == True:
+            time.sleep(3)
+            self.newWave = False
         # UPDATE CHARS
         self.move.update()
         self.player.update(self.mouse.pos.copy())
@@ -135,11 +140,11 @@ class Game:
 
         #Seeing if the enemies array is empty, if so than increase the round counter by 1, change the state, then run the waves function again. Which will then load in round 2 enemies
         if len(self.enemies) == 0:
+            roundString = "Round " + str(self.waveCount) + " complete!"
+            canvas.draw_text(roundString,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(roundString, 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             self.waveCount+=1
             self.waves()
-            #roundString = "Round " + str(self.waveCount) + " complete!"
-            #canvas.draw_text(roundString,[self.CANVAS_WIDTH/2,self.CANVAS_HEIGHT/2],30,'Red')
-            #time.sleep(3)
+            self.newWave = True
 
 
 
