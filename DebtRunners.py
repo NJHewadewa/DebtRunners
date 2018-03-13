@@ -4,7 +4,6 @@ from Player import Player
 from Enemy import Enemy
 from Vector import Vector
 import time
-#from MainMenu import*
 from Weapon import Weapon, Pistol, AutoRifle, Shotgun, Knife
 from Pickup import WeaponPickup, ValuePickeup, Pickup
 
@@ -16,18 +15,23 @@ class Game:
         self.initialise()
         self.state = State()
         self.waveCount = 1
+        self.menu = Menu_Screen()
+
+
+        self.state.startGame()
 
         if self.state.start:
-            #Setting the first round to 1
+            # Setting the first round to 1
             self.waves()
 
-            self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
-            self.frame.set_draw_handler(self.draw)
-            self.frame.set_keydown_handler(self.kbd.keyDown)
-            self.frame.set_keyup_handler(self.kbd.keyUp)
-            self.frame.set_mouseclick_handler(self.click)
-            self.frame.set_canvas_background('Gray')
-            self.frame.start()
+        self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
+        self.frame.set_draw_handler(self.draw)
+        self.frame.set_keydown_handler(self.kbd.keyDown)
+        self.frame.set_keyup_handler(self.kbd.keyUp)
+        self.frame.set_mouseclick_handler(self.click)
+        self.frame.set_canvas_background('Gray')
+        self.frame.start()
+
 
 
     def initialise(self):
@@ -160,7 +164,7 @@ class Game:
 
         if self.player.lives == 0:
             self.state.gameOver()
-            canvas.draw_text('bankrupted',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
+            canvas.draw_text('Bankrupted',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
 
 
     def click(self, pos):
@@ -257,12 +261,13 @@ class Interaction: #to avoid repetitive code, add the method to check if (x coll
 
 class State:
     def __init__(self):
-        self.start = True
+        self.start = False
         self.over = False
 
     # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
     def startGame(self):
         self.start = True
+
 
     #When the game is over, this then sets over to true and the game will display a screen wtih the score on. This is for if the player dies, not if the player completes the game
     #that is a different function that I will eventually do.
@@ -271,5 +276,76 @@ class State:
 
     def playerWin(self):
         self.winner = True
+
+
+class Menu_Screen:
+
+    def __init__(self):
+        self.levelname = "startmenu"
+        self.title = "Debt Runners"
+        self.maintext = ""
+        self.background = simplegui.load_image(
+            "https://businessfirstfamily.com/wp-content/uploads/2017/12/consider-debt-consolidation.jpg")
+        self.background2 = simplegui.load_image(
+            "https://ksr-ugc.imgix.net/assets/014/840/017/401808e191e0c25e8577d7d7d2c49251_original.png?crop=faces&w=1552&h=873&fit=crop&v=1496716514&auto=format&q=92&s=2c65f0228772a91c7de95531eed647c2")
+        self.sound = simplegui.load_sound("https://youtu.be/GGXzlRoNtHU")
+        self.sound.set_volume(1)
+
+
+        self.frame = simplegui.create_frame("Dept Runners", 1200, 720)
+        self.frame.set_canvas_background('White')
+        self.frame.set_draw_handler(self.draw)
+        self.frame.set_mouseclick_handler(self.mouse_handler)
+        self.frame.start()
+
+
+    def draw(self, canvas):  # Drawing objects
+
+        if self.levelname == "instructions":
+            canvas.draw_image(self.background2, (1553 / 2, 873 / 2), (1552, 873), (1200 / 2, 720 / 2), (1200, 720))
+            canvas.draw_text(self.title, [440, 112], 69, "Black", "monospace")
+            canvas.draw_text("Instructions go here", [450, 200], 48, "Black")
+            canvas.draw_text("", [10, 320], 46, "Green")
+            canvas.draw_text(self.maintext, [10, 100], 52, "Orange")
+
+
+        elif self.levelname == "startmenu":
+            canvas.draw_image(self.background, (2200 / 2, 1125 / 2), (2200, 1125), (1200 / 2, 720 / 2), (1200, 720))
+            canvas.draw_text(self.title, [380, 112], 69, "Black", "monospace")
+            canvas.draw_text("Start", [470, 340], 52, "Black")
+            canvas.draw_text("Instructions", [470, 400], 52, "Black")
+            canvas.draw_text("Quit", [470, 460], 52, "Black")
+            self.sound.play()
+
+    def mouse_handler(self, position):  # Buttons activity
+
+        self.x, self.y = position
+
+        if 450 < self.x < 580 and 300 < self.y < 350:
+            self.frame.stop()
+
+
+
+        elif 450 < self.x < 580 and 360 < self.y < 400:
+            self.levelname = "instructions"
+            self.instructions()
+
+        elif 400 < self.x < 640 and 420 < self.y < 460:
+            self.levelname = "quit"
+            quit()
+
+        elif 5 < self.x < 200 and 50 < self.y < 300 and self.levelname == "instructions":
+            self.levelname = "startmenu"
+            self.startmenu()
+
+    # Running the stuff
+    def instructions(self):
+        #global title, levelname, maintext
+        self.title = "Instructions"
+        self.maintext = "Back"
+
+    def startmenu(self):
+        #global title, levelname, maintext
+        self.title = "Debt Runners"
 
 game = Game()
