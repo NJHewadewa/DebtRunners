@@ -74,6 +74,8 @@ class Game:
             self.state.playerWin()
 
 
+
+
     def draw(self, canvas):
         if self.newWave == True:
             time.sleep(3)
@@ -87,6 +89,12 @@ class Game:
         # Displaying the background image on the screen.
         # Format: ( Image name, center of image, image dimensions, canvas center, canvas dimensions.)
         canvas.draw_image(self.backgroundImage,(450,450),(900,900),(self.CANVAS_WIDTH/2,self.CANVAS_HEIGHT/2),(self.CANVAS_WIDTH, self.CANVAS_HEIGHT))
+
+        if self.state.winner:
+            showScore = "Score: " + str(self.score)
+            canvas.draw_text("Winner",[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Winner', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
+            canvas.draw_text(showScore,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(showScore, 50))/2,(self.CANVAS_HEIGHT/2) + 50],50,'Red')
+
 
         # Draw and update enemies
         for enemy in self.enemies:
@@ -162,9 +170,15 @@ class Game:
             time.sleep(5)
             quit()
 
+
+
         if self.player.lives == 0:
             self.state.gameOver()
-            canvas.draw_text('Bankrupted',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
+            showScore = "Score: " + str(self.score)
+            canvas.draw_text("Bankrupted",[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
+            canvas.draw_text(showScore,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(showScore, 50))/2,(self.CANVAS_HEIGHT/2) + 50],50,'Red')
+
+
 
     def click(self, pos):
         self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
@@ -174,9 +188,9 @@ class Game:
                         self.mouse.pos.x > (button.pos.x - button.size)) and (
                         self.mouse.pos.y < (button.pos.y + button.size)) and (
                         self.mouse.pos.y > (button.pos.y - button.size)):
-                    print("currentGun = " + self.player.weapon.__str__())
+                    #print("currentGun = " + self.player.weapon.__str__())
                     self.player.weapon = button.gun
-                    print("currentGun = " + self.player.weapon.__str__())
+                    #print("currentGun = " + self.player.weapon.__str__())
         self.shop.setVisible(False)
 
     def killCheck(self, enemy):
@@ -274,6 +288,7 @@ class State:
     def __init__(self):
         self.start = False
         self.over = False
+        self.winner = False
 
     # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
     def startGame(self):
