@@ -5,6 +5,7 @@ from Enemy import Enemy
 from Vector import Vector
 import time
 from Shop import Shop
+from hud import hud
 from Weapon import *
 from Pickup import WeaponPickup, ValuePickeup, Pickup
 
@@ -24,6 +25,7 @@ class Game:
 
         self.waves()
         self.shop = Shop(False, self.enemies)
+        self.hud = hud(True)
         self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
         self.frame.set_draw_handler(self.draw)
         self.frame.set_keydown_handler(self.kbd.keyDown)
@@ -78,14 +80,15 @@ class Game:
 
     def draw(self, canvas):
         if self.newWave == True:
-            time.sleep(3)
+            time.sleep(2)
             self.shop.setVisible(True)
             self.newWave = False
         # UPDATE CHARS
         self.move.update()
         self.player.update(self.mouse.pos.copy())
         self.mouse.update()
-
+        print(self.player.health)
+        print(self.player.lives)
         # Displaying the background image on the screen.
         # Format: ( Image name, center of image, image dimensions, canvas center, canvas dimensions.)
         canvas.draw_image(self.backgroundImage,(450,450),(900,900),(self.CANVAS_WIDTH/2,self.CANVAS_HEIGHT/2),(self.CANVAS_WIDTH, self.CANVAS_HEIGHT))
@@ -154,15 +157,14 @@ class Game:
             item.draw(canvas)
             item.update()
         self.shop.draw(canvas)
+        self.hud.draw(canvas,self.player.lives,self.player.health)
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
         #Seeing if the enemies array is empty, if so than increase the round counter by 1, change the state, then run the waves function again. Which will then load in round 2 enemies
-        if len(self.enemies) == 0:
+        if len(self.enemies) == 0 and self.shop.visible == False:
             roundString = "Round " + str(self.waveCount) + " complete!"
             canvas.draw_text(roundString,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(roundString, 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
-            self.waveCount+=1
-            self.waves()
             self.newWave = True
 
         # These two if statements must be in this order for the death screen to come up.
@@ -181,7 +183,8 @@ class Game:
 
 
     def click(self, pos):
-        self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
+        if self.shop.visible == False:
+            self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
         if self.shop.visible:
             for button in self.shop.getButtons():
                 if (self.mouse.pos.x < (button.pos.x + button.size)) and (
@@ -190,7 +193,11 @@ class Game:
                         self.mouse.pos.y > (button.pos.y - button.size)):
                     #print("currentGun = " + self.player.weapon.__str__())
                     self.player.weapon = button.gun
-                    #print("currentGun = " + self.player.weapon.__str__())
+
+                    print("currentGun = " + self.player.weapon.__str__())
+                    self.waveCount += 1
+                    self.waves()
+
         self.shop.setVisible(False)
 
     def killCheck(self, enemy):
@@ -206,8 +213,9 @@ class Game:
     def livesCheck(self, player):
         if player.health <= 0:
             self.player.lives -= 1
-            self.player.health = 100
-            #print(self.player.lives)
+            if player.lives > 0:
+                self.player.health = 100
+
 
 
 class Mouse:
