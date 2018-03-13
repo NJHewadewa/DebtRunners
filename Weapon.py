@@ -1,4 +1,3 @@
-
 from Vector import Vector
 
 class Weapon:
@@ -50,7 +49,7 @@ class Weapon:
 
 class Knife(Weapon):
     def __init__(self, enemies,name="", d=10):
-        super().__init__(enemies,name, d)
+        super().__init__(d)
         self.d = d
         self.enemies = enemies
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
@@ -66,24 +65,61 @@ class Pistol(Weapon):
     def __init__(self, d=25,sp=7, cd=75, name=""):
         super().__init__(d, sp,cd, name)
 
+    def __str__(self):
+        return "pistol"
+
 class AutoRifle(Weapon):
     def __init__(self, d=15,sp=10,cd=10,name=""):
         super().__init__(d,sp,cd,name)
 
-class Shotgun(Weapon):
-    def __init__(self, d=15,sp=5,cd=100,name=""):
+    def __str__(self):
+        return "Automatic Rifle"
+
+class RPG(Weapon):
+    def __init__(self,enemies,d=500,sp=2,cd=10,name=""):
+        self.enemies = enemies
         super().__init__(d,sp,cd,name)
 
+
+    def __str__(self):
+        return "Homing Launcher"
+
+
+    def addAttack(self, posEnd=Vector(), posStart=Vector()):
+        if self.timer <= 0:
+            nearestEnemyDistance = 1000
+            self.newDestination = Vector()
+
+            for enemy in self.enemies:
+                if enemy.range(self) < nearestEnemyDistance:
+                    nearestEnemyDistance = enemy.range(self)
+                    nearestEnemy = enemy
+                    self.newDestination = nearestEnemy.pos.copy()
+
+            posEnd = self.newDestination
+            vel = posEnd.subtract(posStart).normalize().multiply(self.bulletSpeed)
+            self.attack.append(Bullet(posStart.copy(), vel.copy(),True,nearestEnemy.pos,self.bulletSpeed))
+            self.timer = self.cooldown
+
+class Shotgun(Weapon):
+    def __init__(self, numberOfBullets=3,d=15,sp=5,cd=100,name=""):
+        super().__init__(d,sp,cd,name)
+        self.numberOfBullets = numberOfBullets
+
+    def __str__(self):
+        return "Shotgun"
 
     def addAttack(self, mousePos=Vector(), playerPos=Vector()):
         if self.timer <= 0:
 
             vel = mousePos.copy().subtract(playerPos).normalize().multiply(self.bulletSpeed)
             self.attack.append(Bullet(playerPos.copy(), vel.copy()))
-            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(7)
-            self.attack.append(Bullet(playerPos.copy(),vel.copy()))
-            vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(-7)
-            self.attack.append(Bullet(playerPos.copy(),vel.copy()))
+            tempBullets = self.numberOfBullets + 3
+            for x in range(1,int(tempBullets/3)):#check if this runs twice instead of once for default
+                vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(x*7)
+                self.attack.append(Bullet(playerPos.copy(),vel.copy()))
+                vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(x*-7)
+                self.attack.append(Bullet(playerPos.copy(),vel.copy()))
 
             self.thegodofallDebugs()
             self.timer = self.cooldown
@@ -97,11 +133,16 @@ class Shotgun(Weapon):
             print(a.vel.getP())
 
 class Bullet:
-    def __init__(self, pos=Vector(), vel=Vector()):
+    def __init__(self, pos=Vector(), vel=Vector(),homing=False,enemyPos=Vector(),bulletSpeed=7):
         self.pos = pos
         self.vel = vel
+        self.homing = homing
+        self.enemyPos = enemyPos
+        self.bulletSpeed = bulletSpeed
 
     def update(self):
-        self.pos.add(self.vel)
-
-
+        if self.homing == False:
+            self.pos.add(self.vel)
+        elif self.homing == True:
+            self.vel = self.enemyPos.copy().subtract(self.pos.copy()).normalize().multiply(self.bulletSpeed)
+            self.pos.add(self.vel)
