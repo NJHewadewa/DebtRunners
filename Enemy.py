@@ -3,7 +3,8 @@ from Vector import Vector
 from Weapon import Knife, Pistol
 
 class Enemy(Actor):
-    def __init__(self, pos=Vector(), health=50, weapon=Pistol(), speed=1, colour="Red", vel=Vector()):
+    def __init__(self, pos=Vector(), health=50, weapon=Pistol(), points=0, speed=1, colour="Red", vel=Vector()):
+        self.points = points
         super().__init__(pos, health, weapon, speed, colour, vel)
 
     def __str__(self):

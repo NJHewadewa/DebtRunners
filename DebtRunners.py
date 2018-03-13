@@ -13,6 +13,7 @@ class Game:
         self.CANVAS_HEIGHT = h
         self.pointer = Vector()
         self.initialise()
+        self.score = 0
         self.state = State()
         self.waveCount = 1
         self.menu = Menu_Screen()
@@ -60,17 +61,18 @@ class Game:
         if self.waveCount == 1:
             for e in range(3):#3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
-                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
+                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(),10))
+
 
         elif self.waveCount == 2:
             for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
-                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol()))
+                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(), 10))
 
         elif self.waveCount == 3:
             for e in range(3):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
-                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100,AutoRifle()))
+                self.enemies.append(Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
         else:
             self.state.playerWin()
 
@@ -174,7 +176,10 @@ class Game:
         kill = False
         if enemy.health <= 0:
             kill = True
+            self.score += enemy.points
+            print('Player Score: ', self.score)
             self.enemies.remove(enemy)
+
         return kill
 
     def livesCheck(self, player):
@@ -248,7 +253,6 @@ class Movement:  # solver
         if self.keyboard.up or self.keyboard.down or self.keyboard.left or self.keyboard.right:
             if not vel == Vector():
                 self.player.vel.add(vel.normalize().multiply(self.player.speed))
-
 
 
 class Interaction: #to avoid repetitive code, add the method to check if (x collided with y)
@@ -347,5 +351,6 @@ class Menu_Screen:
     def startmenu(self):
         #global title, levelname, maintext
         self.title = "Debt Runners"
+
 
 game = Game()
