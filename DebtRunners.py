@@ -17,10 +17,11 @@ class Game:
         self.waveCount = 1
         self.menu = Menu_Screen()
 
-        # Setting the first round to 1
 
+        self.state.startGame()
 
         if self.state.start:
+            # Setting the first round to 1
             self.waves()
 
         self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
@@ -163,7 +164,7 @@ class Game:
 
         if self.player.lives == 0:
             self.state.gameOver()
-            canvas.draw_text('bankrupted',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
+            canvas.draw_text('Bankrupted',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
 
 
     def click(self, pos):
@@ -260,7 +261,7 @@ class Interaction: #to avoid repetitive code, add the method to check if (x coll
 
 class State:
     def __init__(self):
-        self.start = True
+        self.start = False
         self.over = False
 
     # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
@@ -277,7 +278,7 @@ class State:
         self.winner = True
 
 
-class Menu_Screen():
+class Menu_Screen:
 
     def __init__(self):
         self.levelname = "startmenu"
