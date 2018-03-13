@@ -8,17 +8,18 @@ class Shop():
         self.canvasHeight = canvasHeight
         self.enemies = enemies
         self.buttons = []
-        self.AssaultRifle = Button(Vector(300,200),50,AutoRifle())
-        self.Shotgun = Button(Vector(500,200),50,Shotgun())
-        self.Pistol = Button(Vector(300,500),50,Pistol())
-        self.Knife = Button(Vector(500,500),50,Knife(self.enemies))
-        self.UpgradedShotgun = Button(Vector(200,500),100,Shotgun(6))
-        self.AtomicBomb = Button(Vector(800,200),75,Shotgun(96))
+
+        self.AssaultRifle = Button(Vector(200,200),50,AutoRifle())
+        self.UpgradedShotgun = Button(Vector(200, 500), 100, Shotgun(6))
         self.homingLauncher = Button(Vector(500,500),50,RPG(self.enemies))
-        #self.buttons.append(self.AssaultRifle)
+        self.Shotgun = Button(Vector(500,200),50,Shotgun())
+        self.AtomicBomb = Button(Vector(800,200),75,Shotgun(96))
+        self.Pistol = Button(Vector(900,200),50,Pistol())
+        self.Knife = Button(Vector(800,500),50,Knife(self.enemies))
+        self.buttons.append(self.AssaultRifle)
         self.buttons.append(self.Shotgun)
-        #self.buttons.append(self.Pistol)
-        #self.buttons.append(self.Knife)
+        self.buttons.append(self.Pistol)
+        self.buttons.append(self.Knife)
         self.buttons.append(self.UpgradedShotgun)
         self.buttons.append(self.AtomicBomb)
         self.buttons.append(self.homingLauncher)
@@ -33,6 +34,9 @@ class Shop():
             canvas.draw_text('Shotgun',self.Shotgun.pos.getP(),15,'Blue')
             canvas.draw_text('Atomic Bomb',self.AtomicBomb.pos.getP(),15,'Blue')
             canvas.draw_text('RPG',self.homingLauncher.pos.getP(),15,'Blue')
+            canvas.draw_text('Assault Rifle', self.AssaultRifle.pos.getP(), 15, 'Blue')
+            canvas.draw_text('Pistol', self.Pistol.pos.getP(), 15, 'Blue')
+            canvas.draw_text('Knife', self.Knife.pos.getP(), 15, 'Blue')
             #canvas.draw_text('Pistol')
 
 
