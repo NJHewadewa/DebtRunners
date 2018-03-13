@@ -21,6 +21,7 @@ class Actor: #extend body
 
     def update(self):
         self.pos.add(self.vel)
+        self.vel.multiply(0.6)
 
     def draw(self, canvas):
         self.weapon.draw(canvas)
