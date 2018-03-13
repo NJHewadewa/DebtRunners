@@ -4,7 +4,8 @@ from Player import Player
 from Enemy import Enemy
 from Vector import Vector
 import time
-from Weapon import Weapon, Pistol, AutoRifle, Shotgun, Knife
+from Shop import Shop
+from Weapon import *
 from Pickup import WeaponPickup, ValuePickeup, Pickup
 
 class Game:
@@ -20,10 +21,8 @@ class Game:
 
         self.state.startGame()
 
-        if self.state.start:
-            # Setting the first round to 1
-            self.waves()
-
+        self.waves()
+        self.shop = Shop(False, self.enemies)
         self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
         self.frame.set_draw_handler(self.draw)
         self.frame.set_keydown_handler(self.kbd.keyDown)
@@ -31,8 +30,6 @@ class Game:
         self.frame.set_mouseclick_handler(self.click)
         self.frame.set_canvas_background('Gray')
         self.frame.start()
-
-
 
     def initialise(self):
         self.mouse = Mouse()
@@ -78,6 +75,7 @@ class Game:
     def draw(self, canvas):
         if self.newWave == True:
             time.sleep(3)
+            self.shop.setVisible(True)
             self.newWave = False
         # UPDATE CHARS
         self.move.update()
@@ -145,7 +143,7 @@ class Game:
         for item in self.items:
             item.draw(canvas)
             item.update()
-
+        self.shop.draw(canvas)
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
@@ -166,9 +164,18 @@ class Game:
             self.state.gameOver()
             canvas.draw_text('Bankrupted',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
 
-
     def click(self, pos):
         self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
+        if self.shop.visible:
+            for button in self.shop.getButtons():
+                if (self.mouse.pos.x < (button.pos.x + button.size)) and (
+                        self.mouse.pos.x > (button.pos.x - button.size)) and (
+                        self.mouse.pos.y < (button.pos.y + button.size)) and (
+                        self.mouse.pos.y > (button.pos.y - button.size)):
+                    print("currentGun = " + self.player.weapon.__str__())
+                    self.player.weapon = button.gun
+                    print("currentGun = " + self.player.weapon.__str__())
+        self.shop.setVisible(False)
 
     def killCheck(self, enemy):
         kill = False

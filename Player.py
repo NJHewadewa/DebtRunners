@@ -1,6 +1,6 @@
 from Actor import Actor
 from Vector import Vector
-from Weapon import Knife, Pistol
+from Weapon import *
 
 class Player(Actor): #control self
     def __init__(self, pos=Vector(), health=100, weapon = Pistol(), speed=2, colour="White", lives=3, vel=Vector()):
@@ -17,4 +17,5 @@ class Player(Actor): #control self
     def update(self, mousepos):
         super().update()
         self.weapon.update(mousepos, self.pos.copy())
+        self.vel.multiply(0.6)
 
