@@ -15,9 +15,9 @@ class Game:
         self.initialise()
         self.state = State()
         self.waveCount = 1
-        self.menu = Menu_Screen()
+        #self.menu = Menu_Screen()
 
-        self.menu
+        self.state.start = True
 
         if self.state.start:
             #Setting the first round to 1
@@ -265,6 +265,7 @@ class State:
     # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
     def startGame(self):
         self.start = True
+        print('here')
 
     #When the game is over, this then sets over to true and the game will display a screen wtih the score on. This is for if the player dies, not if the player completes the game
     #that is a different function that I will eventually do.
@@ -275,7 +276,7 @@ class State:
         self.winner = True
 
 
-class Menu_Screen(Game):
+class Menu_Screen():
 
     def __init__(self):
         self.levelname = "startmenu"
@@ -319,8 +320,8 @@ class Menu_Screen(Game):
         self.x, self.y = position
 
         if 450 < self.x < 580 and 300 < self.y < 350:
+            State.startGame(self)
 
-            quit()
 
         elif 450 < self.x < 580 and 360 < self.y < 400:
             self.levelname = "instructions"
@@ -343,6 +344,5 @@ class Menu_Screen(Game):
     def startmenu(self):
         #global title, levelname, maintext
         self.title = "Debt Runners"
-
 
 game = Game()
