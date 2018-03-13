@@ -15,21 +15,22 @@ class Game:
         self.initialise()
         self.state = State()
         self.waveCount = 1
-        #self.menu = Menu_Screen()
+        self.menu = Menu_Screen()
 
-        self.state.start = True
+        # Setting the first round to 1
+
 
         if self.state.start:
-            #Setting the first round to 1
             self.waves()
 
-            self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
-            self.frame.set_draw_handler(self.draw)
-            self.frame.set_keydown_handler(self.kbd.keyDown)
-            self.frame.set_keyup_handler(self.kbd.keyUp)
-            self.frame.set_mouseclick_handler(self.click)
-            self.frame.set_canvas_background('Gray')
-            self.frame.start()
+        self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
+        self.frame.set_draw_handler(self.draw)
+        self.frame.set_keydown_handler(self.kbd.keyDown)
+        self.frame.set_keyup_handler(self.kbd.keyUp)
+        self.frame.set_mouseclick_handler(self.click)
+        self.frame.set_canvas_background('Gray')
+        self.frame.start()
+
 
 
     def initialise(self):
@@ -259,13 +260,13 @@ class Interaction: #to avoid repetitive code, add the method to check if (x coll
 
 class State:
     def __init__(self):
-        self.start = False
+        self.start = True
         self.over = False
 
     # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
     def startGame(self):
         self.start = True
-        print('here')
+
 
     #When the game is over, this then sets over to true and the game will display a screen wtih the score on. This is for if the player dies, not if the player completes the game
     #that is a different function that I will eventually do.
@@ -320,7 +321,8 @@ class Menu_Screen():
         self.x, self.y = position
 
         if 450 < self.x < 580 and 300 < self.y < 350:
-            State.startGame(self)
+            self.frame.stop()
+
 
 
         elif 450 < self.x < 580 and 360 < self.y < 400:
