@@ -87,8 +87,8 @@ class Game:
         self.move.update()
         self.player.update(self.mouse.pos.copy())
         self.mouse.update()
-        print(self.player.health)
-        print(self.player.lives)
+        #print(self.player.health)
+        #print(self.player.lives)
         # Displaying the background image on the screen.
         # Format: ( Image name, center of image, image dimensions, canvas center, canvas dimensions.)
         canvas.draw_image(self.backgroundImage,(450,450),(900,900),(self.CANVAS_WIDTH/2,self.CANVAS_HEIGHT/2),(self.CANVAS_WIDTH, self.CANVAS_HEIGHT))
@@ -162,7 +162,7 @@ class Game:
         self.player.draw(canvas)
 
         #Seeing if the enemies array is empty, if so than increase the round counter by 1, change the state, then run the waves function again. Which will then load in round 2 enemies
-        if len(self.enemies) == 0 and self.shop.visible == False:
+        if len(self.enemies) == 0 and self.shop.visible == False and self.state:
             roundString = "Round " + str(self.waveCount) + " complete!"
             canvas.draw_text(roundString,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(roundString, 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             self.newWave = True
