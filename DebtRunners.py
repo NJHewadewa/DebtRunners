@@ -75,14 +75,15 @@ class Game:
         #             Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
         else:
             self.state.playerWin()
+            self.shop.setVisible(False)
 
 
     def draw(self, canvas):
         if self.newWave == True:
             time.sleep(2)
-            if self.state.winner == False:
-                self.shop.setVisible(True)
+            self.shop.setVisible(True)
             self.newWave = False
+
 
         # UPDATE CHARS
         self.move.update()
@@ -158,7 +159,6 @@ class Game:
             playScore = "Score: " + str(self.score)
             canvas.draw_text('Winner',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Winner', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             canvas.draw_text(playScore,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(playScore, 50))/2,(self.CANVAS_HEIGHT/2)+51],50,'Red')
-            time.sleep(5)
             self.frame.stop()
 
         #Seeing if the enemies array is empty, if so than increase the round counter by 1, change the state, then run the waves function again. Which will then load in round 2 enemies
@@ -302,9 +302,8 @@ class State:
     def startGame(self):
         self.start = True
 
-
-    #When the game is over, this then sets over to true and the game will display a screen wtih the score on. This is for if the player dies, not if the player completes the game
-    #that is a different function that I will eventually do.
+    # When the game is over, this then sets over to true and the game will display a screen wtih the score on. This is for if the player dies, not if the player completes the game
+    # that is a different function that I will eventually do.
     def gameOver(self):
         self.over = True
 
@@ -381,6 +380,7 @@ class Menu_Screen:
     def startmenu(self):
         #global title, levelname, maintext
         self.title = "Debt Runners"
+
 
 while True:
     game = Game()
