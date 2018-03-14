@@ -340,24 +340,23 @@ class Menu_Screen:
         self.frame.set_mouseclick_handler(self.mouse_handler)
         self.frame.start()
 
-
     def draw(self, canvas):  # Drawing objects
 
         if self.levelname == "instructions":
             canvas.draw_image(self.background2, (1553 / 2, 873 / 2), (1552, 873), (1200 / 2, 720 / 2), (1200, 720))
             canvas.draw_text(self.title, [440, 112], 69, "Black", "monospace")
-            canvas.draw_text("title", [440, 112], 69, "Black", "monospace")
-			canvas.draw_text("You owe how much?!?! ", [200, 200], 28, "Black")
-			canvas.draw_text("The debt collectors are coming for you, do your best to", [200, 250], 28, "Black")
-			canvas.draw_text("defend yourself and survive for as long as possible.", [200, 280], 28, "Black")
-			canvas.draw_text("You start with 100 heath and once that reaches 0 you lose a life,", [200, 310], 28, "Black")
-			canvas.draw_text("lose all 3 and that means game over.", [200, 340], 28, "Black")
-			canvas.draw_text("Use WASD to move, your mouse to aim, and left click to shoot. ", [200, 370], 28, "Black")
-			canvas.draw_text("Use the store in between rounds to purchase other weapons to ", [200, 400], 28, "Black")
-			canvas.draw_text("really make those debt collectors regret coming after you.", [200, 430], 28, "Black")
-			canvas.draw_text("Good luck, ya gonna need it... ", [200, 480], 28, "Black")
+            #canvas.draw_text("title", [440, 112], 69, "Black", "monospace")
+            canvas.draw_text("You owe how much?!?! ", [200, 200], 28, "Black")
+            canvas.draw_text("The debt collectors are coming for you, do your best to", [200, 250], 28, "Black")
+            canvas.draw_text("defend yourself and survive for as long as possible.", [200, 280], 28, "Black")
+            canvas.draw_text("You start with 100 heath and once that reaches 0 you lose a life,", [200, 310], 28,
+                             "Black")
+            canvas.draw_text("lose all 3 and that means game over.", [200, 340], 28, "Black")
+            canvas.draw_text("Use WASD to move, your mouse to aim, and left click to shoot. ", [200, 370], 28, "Black")
+            canvas.draw_text("Use the store in between rounds to purchase other weapons to ", [200, 400], 28, "Black")
+            canvas.draw_text("really make those debt collectors regret coming after you.", [200, 430], 28, "Black")
+            canvas.draw_text("Good luck, ya gonna need it... ", [200, 480], 28, "Black")
             canvas.draw_text(self.maintext, [10, 100], 52, "Orange")
-
 
         elif self.levelname == "startmenu":
             canvas.draw_image(self.background, (2200 / 2, 1125 / 2), (2200, 1125), (1200 / 2, 720 / 2), (1200, 720))
