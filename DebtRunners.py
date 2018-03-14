@@ -62,20 +62,19 @@ class Game:
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(), 10))
 
-        # elif self.waveCount == 2:
-        #     for e in range(2):  # 3 is number of enemies
-        #         # Assigns the enemies different positions, health and a new weapon
-        #         self.enemies.append(
-        #             Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(), 10))
-        #
-        # elif self.waveCount == 3:
-        #     for e in range(3):  # 3 is number of enemies
-        #         # Assigns the enemies different positions, health and a new weapons
-        #         self.enemies.append(
-        #             Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
+        elif self.waveCount == 2:
+            for e in range(2):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapon
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(), 10))
+
+        elif self.waveCount == 3:
+            for e in range(3):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapons
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
         else:
             self.state.playerWin()
-            self.shop.setVisible(False)
 
 
     def draw(self, canvas):
@@ -83,7 +82,6 @@ class Game:
             time.sleep(2)
             self.shop.setVisible(True)
             self.newWave = False
-
 
         # UPDATE CHARS
         self.move.update()
@@ -159,14 +157,19 @@ class Game:
             playScore = "Score: " + str(self.score)
             canvas.draw_text('Winner',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Winner', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             canvas.draw_text(playScore,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(playScore, 50))/2,(self.CANVAS_HEIGHT/2)+51],50,'Red')
-            self.frame.stop()
+            print('Here')
+            if self.state.end:
+                time.sleep(5)
+                self.frame.stop()
+            self.state.end = True
+
+
 
         #Seeing if the enemies array is empty, if so than increase the round counter by 1, change the state, then run the waves function again. Which will then load in round 2 enemies
         if len(self.enemies) == 0 and self.shop.visible == False and self.state.winner == False:
             roundString = "Round " + str(self.waveCount) + " complete!"
             canvas.draw_text(roundString,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(roundString, 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             self.newWave = True
-
 
 
         # These two if statements must be in this order for the death screen to come up.
@@ -179,7 +182,6 @@ class Game:
             showScore = "Score: " + str(self.score)
             canvas.draw_text("Bankrupted",[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             canvas.draw_text(showScore,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(showScore, 50))/2,(self.CANVAS_HEIGHT/2) + 50],50,'Red')
-
 
 
     def click(self, pos):
@@ -297,6 +299,7 @@ class State:
         self.start = False
         self.over = False
         self.winner = False
+        self.end = False
 
     # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
     def startGame(self):
