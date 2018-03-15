@@ -19,12 +19,10 @@ class Pickup():
 
     def draw(self, canvas):
         canvas.draw_image(self.image, (896/2,896/2), (896,896), self.pos.getP(), (112,112))
-        #canvas.draw_circle(self.pos.getP(), self.xBox/2, 1, "Yellow", "Yellow")
+        #all images have to be 896x896 for now
 
     def collisionDetected(self):
-        print("health has been picked up!")
-        #remove pickup here(as its now been picked up)
-        #prevents spamming of this method
+        pass
 
 
 class WeaponPickup(Pickup): #pickup for the different type of weapons(AR, pistol etc)
@@ -38,10 +36,18 @@ class WeaponPickup(Pickup): #pickup for the different type of weapons(AR, pistol
         self.items.remove(self)
 
 
-class ValuePickeup(Pickup): #pickup that increases a stat, e,g (health, armour, etc)
-    def __init__(self,value):
+class HealthPickup(Pickup): #pickup that increases a stat, e,g (health, armour, etc)
+    def __init__(self,value,player,pos,xBox,yBox,filename,items):
         self.value = value
+        self.pos = pos
+        super().__init__(player, pos, xBox, yBox, filename, items)
 
+    def collisionDetected(self):
+        self.player.health += self.value
+        self.items.remove(self)
 
+    def draw(self, canvas):
+        canvas.draw_circle(self.pos.getP(), 8, 1, 'Black', 'Red')
+        #all images have to be 896x896 for now
 
 

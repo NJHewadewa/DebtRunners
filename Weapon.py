@@ -47,7 +47,7 @@ class Weapon:
             self.timer -= 1
 
 class Knife(Weapon):
-    def __init__(self, enemies, d=10):
+    def __init__(self, enemies, d=100):
         super().__init__(d)
         self.d = d
         self.enemies = enemies

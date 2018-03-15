@@ -7,7 +7,7 @@ import time
 from Shop import Shop
 from hud import hud
 from Weapon import *
-from Pickup import WeaponPickup, ValuePickeup, Pickup
+from Pickup import *
 from random import *
 
 
@@ -51,17 +51,6 @@ class Game:
         self.homingLauncher = RPG(self.enemies)
         self.AtomicBomb = Shotgun(96)
 
-
-        self.pistol = WeaponPickup(self.Pistol,self.player,Vector(randint(100,1100),randint(100,700)),60,60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Pistol.png',self.items)
-        self.items.append(self.pistol)
-        #self.knife = WeaponPickup(self.melee,self.player,Vector(100,300),60,60,'https://image.ibb.co/kLzxDS/knife.png',self.items)
-        #self.ak47 = WeaponPickup(self.AR,self.player,Vector(100,50),60,60,'https://image.ibb.co/hQ4eA7/ak47.png',self.items)
-        #self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png',self.items)
-        #self.items.append(self.ak47)
-        #self.items.append(self.shotgun)
-        #self.items.append(self.knife)
-
-
         self.newWave = False
         # Loading in the background image from the github, since I can't do it locally at the moment.
         self.backgroundImage = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/parking.png?raw=true')
@@ -70,60 +59,71 @@ class Game:
     def waves(self):
         # This will add the enemies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
         if self.waveCount == 1:
+            self.placeRandomPickups()
             for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 3 * (e + 1), self.CANVAS_HEIGHT / 4), 25, Pistol(), 10))
 
+
         elif self.waveCount == 2:
+            self.placeRandomPickups()
             for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 25, Pistol(), 10))
 
         elif self.waveCount == 3:
+            self.placeRandomPickups()
             for e in range(1):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 50, Pistol(), 10))
 
         elif self.waveCount == 4:
+            self.placeRandomPickups()
             for e in range(3):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 50, Shotgun(), 30))
 
         elif self.waveCount == 5:
+            self.placeRandomPickups()
             for e in range(3):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100, Shotgun(), 30))
 
         elif self.waveCount == 6:
+            self.placeRandomPickups()
             for e in range(4):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
 
         elif self.waveCount == 7:
+            self.placeRandomPickups()
             for e in range(5):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
+                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 100, self.UpgradedShotgun(), 30))
 
         elif self.waveCount == 8:
+            self.placeRandomPickups()
             for e in range(6):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
 
         elif self.waveCount == 9:
+            self.placeRandomPickups()
             for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 500, Shotgun(24), 30))
 
         elif self.waveCount == 10:
+            self.placeRandomPickups()
             for e in range(4):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
@@ -272,6 +272,29 @@ class Game:
             if player.lives > 0:
                 self.player.health = 100
 
+    def placeRandomPickups(self):
+        self.pistolPickup = WeaponPickup(self.Pistol, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Pistol.png',self.items)
+        self.knifePickup = WeaponPickup(self.melee, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/RandomPickups/Sprites/knife.png',self.items)
+        #fix knife sprite
+        self.ak47Pickup = WeaponPickup(self.AR, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Rifle.png?raw=true',self.items)
+        self.shotgunPickup = WeaponPickup(self.SG, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Shotgun.png?raw=true',self.items)
+        self.sniperPickup = WeaponPickup(self.Sniper, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Sniper.png?raw=true',self.items)
+        self.RPGPickup = WeaponPickup(self.homingLauncher, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Rocket.png?raw=true',self.items)
+
+        Pickups = [self.pistolPickup,self.knifePickup,self.ak47Pickup,self.ak47Pickup,self.shotgunPickup,self.shotgunPickup,self.shotgunPickup,self.sniperPickup,self.RPGPickup]
+
+        for x in range(randint(0,4)):
+            self.items.append(Pickups[randint(0, len(Pickups) - 1)])
+
+        self.healthPickup = HealthPickup(25,self.player,Vector(randint(100, 1100), randint(200, 700)),60,60,'INSERT HEALTH PACK SPRITE PNG HERE',self.items)
+        self.items.append(self.healthPickup)
+
+        #self.items.append(self.ak47Pickup)
+        #self.items.append(self.shotgunPickup)
+        #self.items.append(self.knifePickup)
+        #self.items.append(self.pistolPickup)
+        #self.items.append(self.sniperPickup)
+        #self.items.append(self.RPGPickup)
 
 
 class Mouse:
