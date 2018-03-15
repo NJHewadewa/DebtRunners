@@ -8,6 +8,8 @@ from Shop import Shop
 from hud import hud
 from Weapon import *
 from Pickup import WeaponPickup, ValuePickeup, Pickup
+from random import *
+
 
 class Game:
     def __init__(self, w=1200, h=700):
@@ -40,15 +42,26 @@ class Game:
         self.move = Movement(self.player, self.kbd)
         self.enemies = []
         self.items = []
-        self.AR = AutoRifle()
+        self.Pistol = Pistol()
         self.SG = Shotgun()
         self.melee = Knife(self.enemies)
-        self.knife = WeaponPickup(self.melee,self.player,Vector(100,300),60,60,'https://image.ibb.co/kLzxDS/knife.png',self.items)
-        self.ak47 = WeaponPickup(self.AR,self.player,Vector(100,50),60,60,'https://image.ibb.co/hQ4eA7/ak47.png',self.items)
-        self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png',self.items)
-        self.items.append(self.ak47)
-        self.items.append(self.shotgun)
-        self.items.append(self.knife)
+        self.Sniper = Sniper()
+        self.AR = AutoRifle()
+        self.UpgradedShotgun = Shotgun(6)
+        self.homingLauncher = RPG(self.enemies)
+        self.AtomicBomb = Shotgun(96)
+
+
+        self.pistol = WeaponPickup(self.Pistol,self.player,Vector(randint(100,1100),randint(100,700)),60,60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Pistol.png',self.items)
+        self.items.append(self.pistol)
+        #self.knife = WeaponPickup(self.melee,self.player,Vector(100,300),60,60,'https://image.ibb.co/kLzxDS/knife.png',self.items)
+        #self.ak47 = WeaponPickup(self.AR,self.player,Vector(100,50),60,60,'https://image.ibb.co/hQ4eA7/ak47.png',self.items)
+        #self.shotgun = WeaponPickup(self.SG,self.player,Vector(500,300),60,60,'https://image.ibb.co/hhJQHn/shotgun.png',self.items)
+        #self.items.append(self.ak47)
+        #self.items.append(self.shotgun)
+        #self.items.append(self.knife)
+
+
         self.newWave = False
         # Loading in the background image from the github, since I can't do it locally at the moment.
         self.backgroundImage = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/parking.png?raw=true')

@@ -18,7 +18,7 @@ class Pickup():
                 self.collisionDetected()
 
     def draw(self, canvas):
-        canvas.draw_image(self.image, (192/2,108/2), (192,108), self.pos.getP(), (91,54))
+        canvas.draw_image(self.image, (896/2,896/2), (896,896), self.pos.getP(), (112,112))
         #canvas.draw_circle(self.pos.getP(), self.xBox/2, 1, "Yellow", "Yellow")
 
     def collisionDetected(self):
