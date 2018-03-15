@@ -57,28 +57,64 @@ class Game:
     def waves(self):
         # This will add the enemies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
         if self.waveCount == 1:
-            for e in range(3):  # 3 is number of enemies
+            for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(), 10))
+                    Enemy(Vector(self.CANVAS_WIDTH / 3 * (e + 1), self.CANVAS_HEIGHT / 4), 25, Pistol(), 10))
 
         elif self.waveCount == 2:
             for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(), 10))
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 25, Pistol(), 10))
 
         elif self.waveCount == 3:
-            for e in range(2):  # 3 is number of enemies
+            for e in range(1):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 10, Pistol(), 10))
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 50, Pistol(), 10))
 
         elif self.waveCount == 4:
             for e in range(3):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 50, Shotgun(), 30))
+
+        elif self.waveCount == 5:
+            for e in range(3):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapons
+                self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
+
+        elif self.waveCount == 6:
+            for e in range(4):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapons
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
+
+        elif self.waveCount == 7:
+            for e in range(5):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapons
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
+
+        elif self.waveCount == 8:
+            for e in range(6):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapons
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 100, AutoRifle(), 30))
+
+        elif self.waveCount == 9:
+            for e in range(2):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapons
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 500, Shotgun(24), 30))
+
+        elif self.waveCount == 10:
+            for e in range(4):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapons
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 1000, Shotgun(96), 30))
         else:
             self.state.playerWin()
 

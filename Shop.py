@@ -9,6 +9,7 @@ class Shop():
         self.enemies = enemies
         self.buttons = []
 
+        self.Sniper = Button(Vector(900,500),50,Sniper())
         self.AssaultRifle = Button(Vector(200,200),50,AutoRifle())
         self.UpgradedShotgun = Button(Vector(200, 500), 100, Shotgun(6))
         self.homingLauncher = Button(Vector(500,500),50,RPG(self.enemies))
@@ -23,6 +24,7 @@ class Shop():
         self.buttons.append(self.UpgradedShotgun)
         self.buttons.append(self.AtomicBomb)
         self.buttons.append(self.homingLauncher)
+        self.buttons.append(self.Sniper)
     def update(self, playerpos):
         pass
 
@@ -37,6 +39,7 @@ class Shop():
             canvas.draw_text('Assault Rifle', self.AssaultRifle.pos.getP(), 15, 'Blue')
             canvas.draw_text('Pistol', self.Pistol.pos.getP(), 15, 'Blue')
             canvas.draw_text('Knife', self.Knife.pos.getP(), 15, 'Blue')
+            canvas.draw_text('Sniper', self.Sniper.pos.getP(),15,'Blue')
             #canvas.draw_text('Pistol')
 
 
