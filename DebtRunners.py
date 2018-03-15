@@ -191,7 +191,7 @@ class Game:
             item.draw(canvas)
             item.update()
         self.shop.draw(canvas)
-        self.hud.draw(canvas,self.player.lives,self.player.health)
+        self.hud.draw(canvas,self.player.lives,self.player.health,self.score,self.player.weapon.__str__())
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
