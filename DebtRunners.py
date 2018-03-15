@@ -269,6 +269,7 @@ class Game:
 
         self.shop.setVisible(False)
 
+
     def killCheck(self, enemy):
         kill = False
         if enemy.health <= 0:
@@ -303,7 +304,7 @@ class Game:
 
         self.healthPickup = HealthPickup(25,self.player,Vector(randint(100, 1100), randint(200, 700)),60,60,'INSERT HEALTH PACK SPRITE PNG HERE',self.items)
         self.items.append(self.healthPickup)
-
+        self.noMoney = False
         #self.items.append(self.ak47Pickup)
         #self.items.append(self.shotgunPickup)
         #self.items.append(self.knifePickup)

@@ -10,6 +10,7 @@ class Shop():
         self.enemies = enemies
         self.buttons = []
 
+        #all the button objects
         self.AssaultRifle = Button(Vector(250,250),50,AutoRifle(),800)
         self.UpgradedShotgun = Button(Vector(250, 400), 100, Shotgun(6),700)
         self.homingLauncher = Button(Vector(450,400),50,RPG(self.enemies),1200)
@@ -19,6 +20,7 @@ class Shop():
         self.Sniper = Button(Vector(600,400),50,Sniper(),600)
         self.Knife = Button(Vector(750,400),50,Knife(self.enemies),100)
         self.Default = Button(Vector(900, 325), 150, player.weapon, 0)
+        #all the label buttons being added to a list.
         self.buttons.append(self.AssaultRifle)
         self.buttons.append(self.Shotgun)
         self.buttons.append(self.Pistol)
@@ -41,7 +43,7 @@ class Shop():
             canvas.draw_text("£" + str(self.Shotgun.price), [self.Shotgun.pos.getP()[0],self.Shotgun.pos.getP()[1] + 25], 15, 'Blue')
             canvas.draw_text('Atomic Bomb',self.AtomicBomb.pos.getP(),15,'Blue')
             canvas.draw_text("£" + str(self.AtomicBomb.price), [self.AtomicBomb.pos.getP()[0],self.AtomicBomb.pos.getP()[1] + 25], 15, 'Blue')
-            canvas.draw_text('RPG',self.homingLauncher.pos.getP(),15,'Blue')
+            canvas.draw_text('Homing Launcher',self.homingLauncher.pos.getP(),15,'Blue')
             canvas.draw_text("£" + str(self.homingLauncher.price), [self.homingLauncher.pos.getP()[0],self.homingLauncher.pos.getP()[1] + 25], 15, 'Blue')
             canvas.draw_text('Assault Rifle', self.AssaultRifle.pos.getP(), 15, 'Blue')
             canvas.draw_text("£" + str(self.AssaultRifle.price), [self.AssaultRifle.pos.getP()[0],self.AssaultRifle.pos.getP()[1] + 25], 15, 'Blue')
