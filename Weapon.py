@@ -82,7 +82,7 @@ class Sniper(Weapon):
         return "Sniper Rifle"
 
 class RPG(Weapon):
-    def __init__(self,enemies,d=500,sp=3,cd=100,name="",size=4): #d=damage, sp=speed,cd=cooldown(rate of fire)
+    def __init__(self,enemies,d=5000,sp=3,cd=100,name="",size=4): #d=damage, sp=speed,cd=cooldown(rate of fire)
         self.enemies = enemies
         super().__init__(d,sp,cd,name,size) #size = size of bullet
 
