@@ -105,7 +105,7 @@ class RPG(Weapon):
                     nearestEnemy = enemy
                     self.newDestination = nearestEnemy.pos.copy()
 
-            posEnd = self.newDestination
+            #posEnd = self.newDestination
             vel = posEnd.subtract(posStart).normalize().multiply(self.bulletSpeed)
             self.attack.append(Bullet(posStart.copy(), vel.copy(),True,nearestEnemy.pos,self.bulletSpeed))
             self.timer = self.cooldown
@@ -155,11 +155,16 @@ class Bullet:
         self.homing = homing
         self.enemyPos = enemyPos
         self.bulletSpeed = bulletSpeed
+        self.counter = 0
 
     def update(self):
         if self.homing == False:
             self.pos.add(self.vel)
         elif self.homing == True:
-            self.vel = self.enemyPos.copy().subtract(self.pos.copy()).normalize().multiply(self.bulletSpeed)
-            self.pos.add(self.vel)
+            if self.counter < 60:
+                self.counter += 1
+                self.pos.add(self.vel)
+            else:
+                self.vel = self.enemyPos.copy().subtract(self.pos.copy()).normalize().multiply(self.bulletSpeed)
+                self.pos.add(self.vel)
             #if bullet is homing enabled then set new velocity as position of enemy.

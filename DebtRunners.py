@@ -469,3 +469,4 @@ class Menu_Screen:
 
 while True:
     game = Game()
+    game.menu.sound.pause()
