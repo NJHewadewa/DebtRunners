@@ -1,4 +1,5 @@
 from Vector import Vector
+from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
 
 class Weapon:
     def __init__(self,d=20, bulletSpeed=7,cd=60,size=2,pos=Vector()):
@@ -26,6 +27,9 @@ class Weapon:
             canvas.draw_circle(self.pos.getP(), 9, 1, "Green", "Green")
         for a in self.attack:
             canvas.draw_circle(a.pos.getP(), 4, 1, "Blue", "Blue")
+            #below not working for bullet sprite
+            #image = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/bullet.png?raw=true')
+            #canvas.draw_image(image,(224/2,224/2),(224,224),self.pos.getP(),(112,112))
             # canvas.draw_circle(a.pos.getP(), self.size, 1, "Blue", "Blue")
             #these are the bullets being drawn
 

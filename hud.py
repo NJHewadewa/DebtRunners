@@ -12,11 +12,13 @@ class hud():
             canvas.draw_polygon([[250,620],[(250+health),620],[(250+health),645],[250,645]], 1, 'Black', 'Red')
             canvas.draw_text(str(health), [250,670], 15, 'Red')
             StringScore = "Score: " + str(score)
-            canvas.draw_text(StringScore,[1050,635],20,'Green')
+            canvas.draw_text(StringScore,[1050,635],20,'Yellow')
             CurrentGun = "Gun: " + gun
-            canvas.draw_text(CurrentGun, [850, 635], 20, 'Green')
+            canvas.draw_text(CurrentGun, [850, 635], 20, 'Yellow')
             CurrentMoney = "£ " + str(money)
-            canvas.draw_text(CurrentMoney, [750, 635], 20, 'Green')
+            canvas.draw_text(CurrentMoney, [750, 635], 20, 'Yellow')
 
     def setVisible(self,newVisiblility):
         self.visible = newVisiblility
+
+
