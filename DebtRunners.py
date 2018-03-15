@@ -25,7 +25,7 @@ class Game:
         self.state.startGame()
 
         self.waves()
-        self.shop = Shop(False, self.enemies)
+        self.shop = Shop(False, self.enemies,self.player)
         self.hud = hud(True)
         self.frame = simplegui.create_frame('Debt Runners', self.CANVAS_WIDTH, self.CANVAS_HEIGHT)
         self.frame.set_draw_handler(self.draw)
@@ -50,6 +50,7 @@ class Game:
         self.UpgradedShotgun = Shotgun(6)
         self.homingLauncher = RPG(self.enemies)
         self.AtomicBomb = Shotgun(96)
+        self.noMoney = False
 
         self.newWave = False
         # Loading in the background image from the github, since I can't do it locally at the moment.
@@ -60,7 +61,7 @@ class Game:
         # This will add the enemies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
         if self.waveCount == 1:
             self.placeRandomPickups()
-            for e in range(2):  # 3 is number of enemies
+            for e in range(1):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 3 * (e + 1), self.CANVAS_HEIGHT / 4), 25, Pistol(), 10))
@@ -203,7 +204,7 @@ class Game:
             item.draw(canvas)
             item.update()
         self.shop.draw(canvas)
-        self.hud.draw(canvas,self.player.lives,self.player.health,self.score,self.player.weapon.__str__())
+        self.hud.draw(canvas,self.player.lives,self.player.health,self.score,self.player.weapon.__str__(),self.player.money)
         # DRAW CHARS HERE
         self.player.draw(canvas)
 
@@ -237,6 +238,8 @@ class Game:
             canvas.draw_text("Bankrupted",[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Bankrupted', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             canvas.draw_text(showScore,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(showScore, 50))/2,(self.CANVAS_HEIGHT/2) + 50],50,'Red')
 
+        if self.noMoney == True:
+            canvas.draw_text('Not enough money! Try again', [900,400], 15, 'Black')
 
     def click(self, pos):
         if self.shop.visible == False:
@@ -247,12 +250,22 @@ class Game:
                         self.mouse.pos.x > (button.pos.x - button.size)) and (
                         self.mouse.pos.y < (button.pos.y + button.size)) and (
                         self.mouse.pos.y > (button.pos.y - button.size)):
+
                     #print("currentGun = " + self.player.weapon.__str__())
-                    self.player.weapon = button.gun
+                    if button.price == 0:
+                        self.waveCount += 1
+                        self.waves()
+                    elif button.price <= self.player.money:
+                        self.player.weapon = button.gun
+                        self.player.money -= button.price
+                        self.waveCount += 1
+                        self.waves()
+                    else:
+                        self.noMoney = True
+
 
                     print("currentGun = " + self.player.weapon.__str__())
-                    self.waveCount += 1
-                    self.waves()
+
 
         self.shop.setVisible(False)
 
@@ -263,6 +276,7 @@ class Game:
             self.score += enemy.points
             #print('Player Score: ', self.score)
             self.enemies.remove(enemy)
+            self.player.money += 100
 
         return kill
 
@@ -271,6 +285,7 @@ class Game:
             self.player.lives -= 1
             if player.lives > 0:
                 self.player.health = 100
+
 
     def placeRandomPickups(self):
         self.pistolPickup = WeaponPickup(self.Pistol, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Pistol.png',self.items)
@@ -401,7 +416,7 @@ class Menu_Screen:
             "https://businessfirstfamily.com/wp-content/uploads/2017/12/consider-debt-consolidation.jpg")
         self.background2 = simplegui.load_image(
             "https://ksr-ugc.imgix.net/assets/014/840/017/401808e191e0c25e8577d7d7d2c49251_original.png?crop=faces&w=1552&h=873&fit=crop&v=1496716514&auto=format&q=92&s=2c65f0228772a91c7de95531eed647c2")
-        self.sound = simplegui.load_sound("https://www.online-downloader.com/DL/Download/WWE-IRS-Irwin-R-Schyster-Theme.ogg")
+        self.sound = simplegui.load_sound("https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/WWE%20IRS%20(Irwin%20R%20Schyster)%20Theme.ogg")
         self.sound.set_volume(1)
 
 

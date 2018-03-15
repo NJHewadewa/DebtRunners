@@ -161,7 +161,8 @@ class Bullet:
         if self.homing == False:
             self.pos.add(self.vel)
         elif self.homing == True:
-            if self.counter < 60:
+            if self.counter < 30:
+                #Goes in the direction of the mouse for 30 frames(half a second) then locks onto enemy and fires at the enemy
                 self.counter += 1
                 self.pos.add(self.vel)
             else:

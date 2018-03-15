@@ -4,7 +4,7 @@ class hud():
         self.visible = visible
         self.canvasHeight = canvasHeight
 
-    def draw(self,canvas,lives,health,score,gun):
+    def draw(self,canvas,lives,health,score,gun,money):
         offset = 100
         if self.visible == True:
             for x in range(lives):
@@ -15,6 +15,8 @@ class hud():
             canvas.draw_text(StringScore,[1050,635],20,'Green')
             CurrentGun = "Gun: " + gun
             canvas.draw_text(CurrentGun, [850, 635], 20, 'Green')
+            CurrentMoney = "£ " + str(money)
+            canvas.draw_text(CurrentMoney, [750, 635], 20, 'Green')
 
     def setVisible(self,newVisiblility):
         self.visible = newVisiblility
