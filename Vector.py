@@ -17,6 +17,12 @@ class Vector:
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
+    def __le__(self, other):
+        return self.x <= other.x and self.y <= other.y
+
+    def __ge__(self, other):
+        return self.x >= other.x and self.y >= other.y
+
     # Tests the inequality of this vector and another
     def __ne__(self, other):
         return not self.__eq__(other)

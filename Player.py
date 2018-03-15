@@ -17,5 +17,5 @@ class Player(Actor): #control self
     def update(self, mousepos):
         super().update()
         self.weapon.update(mousepos, self.pos.copy())
-        self.vel.multiply(0.6)
+
 

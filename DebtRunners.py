@@ -140,7 +140,6 @@ class Game:
             # temp shooting place
             enemy.update(self.player.pos.copy())
             enemy.draw(canvas)
-            enemy.weapon.addAttack(self.player.pos.copy(), enemy.weapon.pos.copy())
 
         # Bullet OoB(Out of Bounds) check
         for bullet in self.player.weapon.attack:
