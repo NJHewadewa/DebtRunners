@@ -401,7 +401,7 @@ class Menu_Screen:
             "https://businessfirstfamily.com/wp-content/uploads/2017/12/consider-debt-consolidation.jpg")
         self.background2 = simplegui.load_image(
             "https://ksr-ugc.imgix.net/assets/014/840/017/401808e191e0c25e8577d7d7d2c49251_original.png?crop=faces&w=1552&h=873&fit=crop&v=1496716514&auto=format&q=92&s=2c65f0228772a91c7de95531eed647c2")
-        self.sound = simplegui.load_sound("https://www.youtube.com/watch?v=p5rAY1InTS4")
+        self.sound = simplegui.load_sound("https://www.online-downloader.com/DL/Download/WWE-IRS-Irwin-R-Schyster-Theme.ogg")
         self.sound.set_volume(1)
 
 
