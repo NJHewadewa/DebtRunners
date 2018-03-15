@@ -1,7 +1,7 @@
 from Vector import Vector
 
 class Weapon:
-    def __init__(self,d=20, bulletSpeed=7,cd=60, name="", pos=Vector()):
+    def __init__(self,d=20, bulletSpeed=7,cd=60, name="", size=2,pos=Vector()):
         self.damage = d
         self.bulletSpeed = bulletSpeed
         self.cooldown = cd
@@ -9,6 +9,7 @@ class Weapon:
         self.timer = 0
         self.pos = pos
         self.attack = []
+        self.size = size
 
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         if self.timer <= 0:
@@ -26,6 +27,7 @@ class Weapon:
             canvas.draw_circle(self.pos.getP(), 9, 1, "Green", "Green")
         for a in self.attack:
             canvas.draw_circle(a.pos.getP(), 4, 1, "Blue", "Blue")
+            # canvas.draw_circle(a.pos.getP(), self.size, 1, "Blue", "Blue")
             #these are the bullets being drawn
 
     def update(self, mousepos, playerpos):
@@ -76,9 +78,9 @@ class AutoRifle(Weapon):
         return "Automatic Rifle"
 
 class RPG(Weapon):
-    def __init__(self,enemies,d=500,sp=2,cd=10,name=""):
+    def __init__(self,enemies,d=5000,sp=3,cd=100,name="",size=4):
         self.enemies = enemies
-        super().__init__(d,sp,cd,name)
+        super().__init__(d,sp,cd,name,size)
 
 
     def __str__(self):
