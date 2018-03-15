@@ -51,6 +51,10 @@ class Knife(Weapon):
         super().__init__(d)
         self.d = d
         self.enemies = enemies
+
+    def __str__(self):
+        return "Knife"
+
     def addAttack(self, posEnd=Vector(), posStart=Vector()):
         for enemy in self.enemies:
             if enemy.range(self) < 20:
@@ -65,7 +69,7 @@ class Pistol(Weapon):
         super().__init__(d, sp,cd)
 
     def __str__(self):
-        return "pistol"
+        return "Pistol"
 
 class AutoRifle(Weapon):
     def __init__(self, d=15,sp=10,cd=10): #d=damage, sp=speed,cd=cooldown(rate of fire)
@@ -112,7 +116,14 @@ class Shotgun(Weapon):
         self.numberOfBullets = numberOfBullets
 
     def __str__(self):
-        return "Shotgun"
+        if self.numberOfBullets == 3:
+            return "Shotgun"
+        elif self.numberOfBullets == 6:
+            return "Upgraded Shotgun"
+        elif self.numberOfBullets > 40:
+            return "Atomic Bombs"
+        else:
+            return "Shotgun" 
 
     def addAttack(self, mousePos=Vector(), playerPos=Vector()):
         if self.timer <= 0:
