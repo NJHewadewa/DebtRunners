@@ -401,7 +401,7 @@ class Menu_Screen:
             "https://businessfirstfamily.com/wp-content/uploads/2017/12/consider-debt-consolidation.jpg")
         self.background2 = simplegui.load_image(
             "https://ksr-ugc.imgix.net/assets/014/840/017/401808e191e0c25e8577d7d7d2c49251_original.png?crop=faces&w=1552&h=873&fit=crop&v=1496716514&auto=format&q=92&s=2c65f0228772a91c7de95531eed647c2")
-        self.sound = simplegui.load_sound("https://youtu.be/GGXzlRoNtHU")
+        self.sound = simplegui.load_sound("https://www.youtube.com/watch?v=p5rAY1InTS4")
         self.sound.set_volume(1)
 
 
@@ -444,13 +444,11 @@ class Menu_Screen:
         if 450 < self.x < 580 and 300 < self.y < 350:
             self.frame.stop()
 
-
-
-        elif 450 < self.x < 580 and 360 < self.y < 400:
+        elif 450 < self.x < 720 and 360 < self.y < 410:
             self.levelname = "instructions"
             self.instructions()
 
-        elif 400 < self.x < 640 and 420 < self.y < 460:
+        elif 450 < self.x < 580 and 420 < self.y < 470:
             self.levelname = "quit"
             quit()
 
