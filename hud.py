@@ -4,13 +4,17 @@ class hud():
         self.visible = visible
         self.canvasHeight = canvasHeight
 
-    def draw(self,canvas,lives,health):
+    def draw(self,canvas,lives,health,score,gun):
         offset = 100
         if self.visible == True:
             for x in range(lives):
-                canvas.draw_circle([offset+(50*x),self.canvasHeight-90],15,10,'Black','Red')
-            canvas.draw_polygon([[250,600],[(250+health),600],[(250+health),625],[250,625]], 1, 'Black', 'Red')
-            canvas.draw_text(str(health), [250,650], 15, 'Red')
+                canvas.draw_circle([offset+(50*x),self.canvasHeight-68],15,1,'Black','Red')
+            canvas.draw_polygon([[250,620],[(250+health),620],[(250+health),645],[250,645]], 1, 'Black', 'Red')
+            canvas.draw_text(str(health), [250,670], 15, 'Red')
+            StringScore = "Score: " + str(score)
+            canvas.draw_text(StringScore,[1050,635],20,'Green')
+            CurrentGun = "Gun: " + gun
+            canvas.draw_text(CurrentGun, [850, 635], 20, 'Green')
 
     def setVisible(self,newVisiblility):
         self.visible = newVisiblility

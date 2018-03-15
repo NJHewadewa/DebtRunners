@@ -1,11 +1,10 @@
 from Vector import Vector
 
 class Weapon:
-    def __init__(self,d=20, bulletSpeed=7,cd=60, name="", size=2,pos=Vector()):
+    def __init__(self,d=20, bulletSpeed=7,cd=60,size=2,pos=Vector()):
         self.damage = d
         self.bulletSpeed = bulletSpeed
         self.cooldown = cd
-        self.name = name
         self.timer = 0
         self.pos = pos
         self.attack = []
@@ -41,8 +40,6 @@ class Weapon:
 
         self.manageCooldown()
 
-
-
     def manageCooldown(self):
         if self.timer < 0:
             self.timer = 0
@@ -50,7 +47,7 @@ class Weapon:
             self.timer -= 1
 
 class Knife(Weapon):
-    def __init__(self, enemies,name="", d=10):
+    def __init__(self, enemies, d=10):
         super().__init__(d)
         self.d = d
         self.enemies = enemies
@@ -64,24 +61,30 @@ class Knife(Weapon):
                     print('knife Hit!')
 
 class Pistol(Weapon):
-    def __init__(self, d=25,sp=7, cd=75, name=""):
-        super().__init__(d, sp,cd, name)
+    def __init__(self, d=25,sp=7, cd=75): #d=damage, sp=speed,cd=cooldown(rate of fire)
+        super().__init__(d, sp,cd)
 
     def __str__(self):
         return "pistol"
 
 class AutoRifle(Weapon):
-    def __init__(self, d=15,sp=10,cd=10,name=""):
-        super().__init__(d,sp,cd,name)
+    def __init__(self, d=15,sp=10,cd=10): #d=damage, sp=speed,cd=cooldown(rate of fire)
+        super().__init__(d,sp,cd)
 
     def __str__(self):
         return "Automatic Rifle"
 
-class RPG(Weapon):
-    def __init__(self,enemies,d=5000,sp=3,cd=100,name="",size=4):
-        self.enemies = enemies
-        super().__init__(d,sp,cd,name,size)
+class Sniper(Weapon):
+    def __init__(self, d=500,sp=30,cd=20): #d=damage, sp=speed,cd=cooldown(rate of fire)
+        super().__init__(d,sp,cd)
 
+    def __str__(self):
+        return "Sniper Rifle"
+
+class RPG(Weapon):
+    def __init__(self,enemies,d=5000,sp=3,cd=100,size=4): #d=damage, sp=speed,cd=cooldown(rate of fire)
+        self.enemies = enemies
+        super().__init__(d,sp,cd,size) #size = size of bullet
 
     def __str__(self):
         return "Homing Launcher"
@@ -104,8 +107,8 @@ class RPG(Weapon):
             self.timer = self.cooldown
 
 class Shotgun(Weapon):
-    def __init__(self, numberOfBullets=3,d=15,sp=5,cd=100,name=""):
-        super().__init__(d,sp,cd,name)
+    def __init__(self, numberOfBullets=3,d=15,sp=5,cd=100): #d=damage, sp=speed,cd=cooldown(rate of fire)
+        super().__init__(d,sp,cd)
         self.numberOfBullets = numberOfBullets
 
     def __str__(self):
@@ -148,3 +151,4 @@ class Bullet:
         elif self.homing == True:
             self.vel = self.enemyPos.copy().subtract(self.pos.copy()).normalize().multiply(self.bulletSpeed)
             self.pos.add(self.vel)
+            #if bullet is homing enabled then set new velocity as position of enemy.
