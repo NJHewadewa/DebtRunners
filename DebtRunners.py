@@ -122,14 +122,14 @@ class Game:
             for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 500, Shotgun(24), 30))
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 200, Shotgun(24), 30))
 
         elif self.waveCount == 10:
             self.placeRandomPickups()
             for e in range(4):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapons
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 1000, Shotgun(96), 30))
+                    Enemy(Vector(self.CANVAS_WIDTH / 8 * (e + 1), self.CANVAS_HEIGHT / 4), 250, Shotgun(96), 30))
         else:
             self.state.playerWin()
 
@@ -296,7 +296,7 @@ class Game:
         self.ak47Pickup = WeaponPickup(self.AR, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Rifle.png',self.items)
         self.shotgunPickup = WeaponPickup(self.SG, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Shotgun.png',self.items)
         self.sniperPickup = WeaponPickup(self.Sniper, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Sniper.png',self.items)
-        self.RPGPickup = WeaponPickup(self.homingLauncher, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Rocket.pngwwwwwwwwww',self.items)
+        self.RPGPickup = WeaponPickup(self.homingLauncher, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Rocket.png',self.items)
 
         Pickups = [self.pistolPickup,self.knifePickup,self.ak47Pickup,self.ak47Pickup,self.shotgunPickup,self.shotgunPickup,self.shotgunPickup,self.sniperPickup,self.RPGPickup]
 

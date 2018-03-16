@@ -9,6 +9,7 @@ class Enemy(Actor):
         super().__init__(pos, health, weapon, speed, colour, vel)
         self.behaviours = [BasicWander(self), Attack(self)]
         self.priority = None
+        self.health = health
 
     def update(self, playerpos):
         self.weapon.update(playerpos, self.pos.copy())
@@ -18,6 +19,15 @@ class Enemy(Actor):
 
     def range(self,other):
         return self.pos.copy().subtract(other.pos.copy()).length()
+
+    def draw(self, canvas):
+        self.weapon.draw(canvas)
+        canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", self.colour)
+        centreX = self.pos.getP()[0]
+        centreY = self.pos.getP()[1]
+        offset = 10
+        yoffset = 15
+        canvas.draw_polygon([(centreX-(self.health*0.5),centreY-offset-offset),(centreX+self.health*0.5,centreY-offset-offset),(centreX+self.health*0.5,centreY-yoffset),(centreX-(self.health*0.5),centreY-yoffset)],1,'Black','Green')
 
     def priorityCheck(self):
         for behaviour in self.behaviours:
