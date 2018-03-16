@@ -54,7 +54,7 @@ class Game:
 
         self.newWave = False
         # Loading in the background image from the github, since I can't do it locally at the moment.
-        self.backgroundImage = simplegui.load_image('http://picresize.com/images/rsz_map_1.png')
+        self.backgroundImage = simplegui.load_image('https://image.ibb.co/kEhcuc/map.png')
         #self.backgroundImage = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/parking.png?raw=true')
 
 
