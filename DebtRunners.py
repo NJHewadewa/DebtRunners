@@ -291,16 +291,17 @@ class Game:
 
     def placeRandomPickups(self):
         self.pistolPickup = WeaponPickup(self.Pistol, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Pistol.png',self.items)
-        self.knifePickup = WeaponPickup(self.melee, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/RandomPickups/Sprites/knife.png',self.items)
+        self.knifePickup = WeaponPickup(self.melee, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/knife.png',self.items)
         #fix knife sprite
-        self.ak47Pickup = WeaponPickup(self.AR, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Rifle.png?raw=true',self.items)
-        self.shotgunPickup = WeaponPickup(self.SG, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Shotgun.png?raw=true',self.items)
-        self.sniperPickup = WeaponPickup(self.Sniper, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Sniper.png?raw=true',self.items)
-        self.RPGPickup = WeaponPickup(self.homingLauncher, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://github.com/NJHewadewa/DebtRunners/blob/RandomPickups/Sprites/Rocket.png?raw=true',self.items)
+        self.ak47Pickup = WeaponPickup(self.AR, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Rifle.png',self.items)
+        self.shotgunPickup = WeaponPickup(self.SG, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Shotgun.png',self.items)
+        self.sniperPickup = WeaponPickup(self.Sniper, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Sniper.png',self.items)
+        self.RPGPickup = WeaponPickup(self.homingLauncher, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Rocket.pngwwwwwwwwww',self.items)
 
         Pickups = [self.pistolPickup,self.knifePickup,self.ak47Pickup,self.ak47Pickup,self.shotgunPickup,self.shotgunPickup,self.shotgunPickup,self.sniperPickup,self.RPGPickup]
 
         for x in range(randint(0,4)):
+            print(x)
             self.items.append(Pickups[randint(0, len(Pickups) - 1)])
 
         self.healthPickup = HealthPickup(25,self.player,Vector(randint(100, 1100), randint(200, 700)),60,60,'INSERT HEALTH PACK SPRITE PNG HERE',self.items)

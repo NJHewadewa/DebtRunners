@@ -18,7 +18,8 @@ class Weapon:
             self.timer = self.cooldown
 
     def removeAttack(self, attack):
-        self.attack.remove(attack)
+        if attack in self.attack:
+            self.attack.remove(attack)
 
     def draw(self, canvas):
         if type(self) is Knife:
