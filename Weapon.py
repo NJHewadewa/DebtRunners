@@ -25,7 +25,8 @@ class Weapon:
         if type(self) is Knife:
             pass
         else:
-            canvas.draw_circle(self.pos.getP(), 9, 1, "Green", "Green")
+            #canvas.draw_circle(self.pos.getP(), 9, 1, "Green", "Green")
+            pass
         for a in self.attack:
             canvas.draw_circle(a.pos.getP(), 4, 1, "Blue", "Blue")
             #below not working for bullet sprite
@@ -70,28 +71,28 @@ class Knife(Weapon):
                     print('knife Hit!')
 
 class Pistol(Weapon):
-    def __init__(self, d=25,sp=7, cd=75): #d=damage, sp=speed,cd=cooldown(rate of fire)
+    def __init__(self, d=5,sp=8, cd=45): #d=damage, sp=speed,cd=cooldown(rate of fire)
         super().__init__(d, sp,cd)
 
     def __str__(self):
         return "Pistol"
 
 class AutoRifle(Weapon):
-    def __init__(self, d=15,sp=10,cd=10): #d=damage, sp=speed,cd=cooldown(rate of fire)
+    def __init__(self, d=10,sp=13,cd=10): #d=damage, sp=speed,cd=cooldown(rate of fire)
         super().__init__(d,sp,cd)
 
     def __str__(self):
         return "Automatic Rifle"
 
 class Sniper(Weapon):
-    def __init__(self, d=500,sp=30,cd=20): #d=damage, sp=speed,cd=cooldown(rate of fire)
+    def __init__(self, d=150,sp=30,cd=60): #d=damage, sp=speed,cd=cooldown(rate of fire)
         super().__init__(d,sp,cd)
 
     def __str__(self):
         return "Sniper Rifle"
 
 class RPG(Weapon):
-    def __init__(self,enemies,d=5000,sp=3,cd=100,size=4): #d=damage, sp=speed,cd=cooldown(rate of fire)
+    def __init__(self,enemies,d=5000,sp=5,cd=100,size=4): #d=damage, sp=speed,cd=cooldown(rate of fire)
         self.enemies = enemies
         super().__init__(d,sp,cd,size) #size = size of bullet
 
@@ -116,7 +117,7 @@ class RPG(Weapon):
             self.timer = self.cooldown
 
 class Shotgun(Weapon):
-    def __init__(self, numberOfBullets=3,d=15,sp=5,cd=100): #d=damage, sp=speed,cd=cooldown(rate of fire)
+    def __init__(self, numberOfBullets=3,d=20,sp=10,cd=100): #d=damage, sp=speed,cd=cooldown(rate of fire)
         super().__init__(d,sp,cd)
         self.numberOfBullets = numberOfBullets
 

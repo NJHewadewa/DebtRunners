@@ -1,7 +1,6 @@
 from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
 import pygame, sys
-from Player import Player
-from Enemy import Enemy
+from Actor import Player, Enemy
 from Vector import Vector
 import time
 from Shop import Shop
@@ -60,27 +59,33 @@ class Game:
 
     def waves(self):
         # This will add the enemies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
+        #basic pistol round
         if self.waveCount == 1:
             self.placeRandomPickups()
-            for e in range(1):  # 3 is number of enemies
+            for e in range(4):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 3 * (e + 1), self.CANVAS_HEIGHT / 4), 25, Pistol(), 10))
+                    Enemy(Vector(self.CANVAS_WIDTH / 5 * (e + 1), self.CANVAS_HEIGHT / 5), 15, Pistol(), 10))
 
-
+        #basic shotgun round
         elif self.waveCount == 2:
             self.placeRandomPickups()
-            for e in range(2):  # 3 is number of enemies
+            for e in range(3):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 25, Pistol(), 10))
+                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 40, Shotgun(), 10))
+            for e in range(4):  # 3 is number of enemies
+                # Assigns the enemies different positions, health and a new weapon
+                self.enemies.append(
+                    Enemy(Vector(self.CANVAS_WIDTH / 5 * (e + 1), self.CANVAS_HEIGHT / 8), 40, Pistol(), 10))
 
+        #sniper round
         elif self.waveCount == 3:
             self.placeRandomPickups()
-            for e in range(1):  # 3 is number of enemies
+            for e in range(5):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
-                    Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 50, Pistol(), 10))
+                    Enemy(Vector(self.CANVAS_WIDTH / 6 * (e + 1), self.CANVAS_HEIGHT / 4), 300, Pistol(), 10, 1))
 
         elif self.waveCount == 4:
             self.placeRandomPickups()
@@ -207,7 +212,7 @@ class Game:
         self.shop.draw(canvas)
         self.hud.draw(canvas,self.player.lives,self.player.health,self.score,self.player.weapon.__str__(),self.player.money)
         # DRAW CHARS HERE
-        self.player.draw(canvas)
+        self.player.draw(canvas, self.player.pos.copy())
 
         if self.state.winner:
             playScore = "Score: " + str(self.score)
@@ -244,7 +249,7 @@ class Game:
 
     def click(self, pos):
         if self.shop.visible == False:
-            self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.weapon.pos.copy())
+            self.player.weapon.addAttack(self.mouse.pos.copy(), self.player.pos.copy())
         if self.shop.visible:
             for button in self.shop.getButtons():
                 if (self.mouse.pos.x < (button.pos.x + button.size)) and (

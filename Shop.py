@@ -1,6 +1,6 @@
 from Vector import Vector
 from Weapon import *
-from Player import Player
+from Actor import Player
 
 class Shop():
     def __init__(self,visible=False,enemies=[],player=Player(),canvasWidth=1200,canvasHeight=700):
