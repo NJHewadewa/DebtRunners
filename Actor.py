@@ -13,6 +13,7 @@ class Actor: #extend body
         self.size = size
         self.sprite = None
         self.rotation = None
+        self.oldweapon = w
         self.spriteAssignment()
 
     def damage(self, x=0):
@@ -24,14 +25,17 @@ class Actor: #extend body
             self.health += x
 
     def update(self, aimpos):
+
         self.rotation = math.atan2(aimpos.y - self.pos.y, aimpos.x - self.pos.x) - 1.5708
         self.pos.add(self.vel)
         self.vel.multiply(0.6)
 
     def draw(self, canvas, pos):
-
+        if not isinstance(self.oldweapon, type(self.weapon)):
+            self.spriteAssignment()
+            self.oldweapon = self.weapon
         self.weapon.draw(canvas)
-        canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", self.colour)
+        #canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", self.colour)
         self.sprite.draw(canvas, pos, self.size, self.rotation)
 
 
@@ -48,18 +52,17 @@ class Actor: #extend body
         if isinstance(self, Enemy):
             print("THIS IS AN ENEMY; BEWARE!")
             if isinstance(self.weapon, Pistol):
-                if random.randrange(0,1) == 0:
+                if random.randint(0,1) == 0:
                     self.sprite = self.enemySprites[0]
-                    print("ENEMY WITH PISTOL SPAWNED")
                 else:
                     self.sprite = self.enemySprites[1]
             if isinstance(self.weapon, Shotgun):
-                if random.randrange(0,1) == 0:
+                if random.randint(0,1) == 0:
                     self.sprite = self.enemySprites[2]
                 else:
                     self.sprite = self.enemySprites[3]
             if isinstance(self.weapon, AutoRifle):
-                if random.randrange(0,1) == 0:
+                if random.randint(0,1) == 0:
                     self.sprite = self.enemySprites[4]
                 else:
                     self.sprite = self.enemySprites[5]
@@ -71,6 +74,12 @@ class Actor: #extend body
                 self.sprite = self.playerSprites[1]
             if isinstance(self.weapon, AutoRifle):
                 self.sprite = self.playerSprites[2]
+            if isinstance(self.weapon, Knife):
+                self.sprite = self.playerSprites[3]
+            if isinstance(self.weapon, Sniper):
+                self.sprite = self.playerSprites[4]
+            if isinstance(self.weapon, RPG):
+                self.sprite = self.playerSprites[5]
 
 class Sprite:
     def __init__(self, image):
@@ -88,10 +97,13 @@ class Sprite:
         canvas.draw_image(self.image, centerSource, sizeSource, centerDest, sizeDest, rotate)
 
 class Player(Actor): #control self
-    # Player class sprites holding items in order: Pistol, Shotgun, Rifle
+    # Player class sprites holding items in order: Pistol, Shotgun, Rifle, Knife, Sniper, RPG
     playerSprites = [Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/DudePistol.png?raw=true'),
                         Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/DudeShotgun.png?raw=true'),
-                            Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/DudeRifle.png?raw=true')]
+                            Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/DudeRifle.png?raw=true'),
+                                Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/DudeKnife1.png?raw=true'),
+                                    Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/DudeSniper.png?raw=true'),
+                                        Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/DudeRocket.png?raw=true')]
 
     def __init__(self, pos=Vector(), health=100, weapon = Pistol(), speed=2, colour="White", lives=3, vel=Vector(), money=0):
         self.lives = lives
