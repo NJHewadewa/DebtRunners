@@ -11,6 +11,8 @@ from random import *
 
 
 class Game:
+    count = [1, 1]
+    damage = 5
     def __init__(self, w=1200, h=700):
         self.CANVAS_WIDTH = w
         self.CANVAS_HEIGHT = h
@@ -56,6 +58,63 @@ class Game:
         self.backgroundImage = simplegui.load_image('https://image.ibb.co/kEhcuc/map.png')
         #self.backgroundImage = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/parking.png?raw=true')
 
+    def outOfBoundsCheck(self):
+        # Bullet OoB(Out of Bounds) check
+        for bullet in self.player.weapon.attack:
+            if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
+                self.player.weapon.removeAttack(bullet)
+
+        for enemy in self.enemies:
+            for bullet in enemy.weapon.attack:
+                if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
+                    enemy.weapon.removeAttack(bullet)
+
+    def playerOutOfBounds(self):
+        if self.player.pos.x < 0 or self.player.pos.y < 0 or self.player.pos.x > self.CANVAS_WIDTH or self.player.pos.y > self.CANVAS_HEIGHT:
+            if Game.count[0] % 60 == 0:
+                self.player.damage(Game.damage)
+                if Game.damage < 40:
+                    Game.damage *= 2
+                Game.count[0] = 1
+            Game.count[0] += 1
+            Game.count[1] = 1
+        elif Game.damage > 5 or Game.count[1] > 1:
+            Game.count[1] += 1
+            if Game.count[1] % 60 == 0:
+                Game.damage = 5
+                Game.count[0] = 1
+                Game.count[1] = 1
+
+    def bulletHitCheck(self):
+        # This is for checking to see if the bullet is within the enemies hitbox.
+        for bullet in self.player.weapon.attack:
+            for enemyIndex in range(len(self.enemies)):
+                if (bullet.pos.x < (self.enemies[enemyIndex].pos.x + self.enemies[enemyIndex].size)) and (
+                        bullet.pos.x > (self.enemies[enemyIndex].pos.x - self.enemies[enemyIndex].size)) and (
+                        bullet.pos.y < (self.enemies[enemyIndex].pos.y + self.enemies[enemyIndex].size)) and (
+                        bullet.pos.y > (self.enemies[enemyIndex].pos.y - self.enemies[enemyIndex].size)):
+
+                    # Subtracting damage from enemies health
+                    self.enemies[enemyIndex].damage(self.player.weapon.damage)
+
+                    # Removing bullet, so that it does not go through the enemy
+                    self.player.weapon.removeAttack(bullet)
+
+                    # Removing enemies from list enemy list
+                    if self.killCheck(self.enemies[enemyIndex]):
+                        break
+
+        for enemy in self.enemies:
+            for bullet in enemy.weapon.attack:
+                if (bullet.pos.x < (self.player.pos.x + self.player.size)) and (
+                        bullet.pos.x > (self.player.pos.x - self.player.size)) and (
+                        bullet.pos.y < (self.player.pos.y + self.player.size)) and (
+                        bullet.pos.y > (self.player.pos.y - self.player.size)):
+                    # Decreasing player health when bullet lands
+                    self.player.damage(enemy.weapon.damage)
+
+                    # Removing the bullet so that is does not go though the enemy
+                    enemy.weapon.removeAttack(bullet)
 
     def waves(self):
         # This will add the enemies to the list if round 1 is true, see State class. Each wave should only ever occur one at a time.
@@ -138,82 +197,45 @@ class Game:
         else:
             self.state.playerWin()
 
-
     def draw(self, canvas):
         if self.newWave == True:
             time.sleep(2)
             self.shop.setVisible(True)
             self.newWave = False
 
-        # UPDATE CHARS
+        ################################################
+        #                DRAW AND UPDATE
+        ################################################
+        # UPDATE PLAYABLE CHARS
         self.move.update()
         self.player.update(self.mouse.pos.copy())
         self.mouse.update()
-        #print(self.player.health)
-        #print(self.player.lives)
         # Displaying the background image on the screen.
         # Format: ( Image name, center of image, image dimensions, canvas center, canvas dimensions.)
         canvas.draw_image(self.backgroundImage,(450,450),(900,900),(self.CANVAS_WIDTH/2,self.CANVAS_HEIGHT/2),(self.CANVAS_WIDTH, self.CANVAS_HEIGHT))
 
-        # Draw and update enemies
+        # DRAW AND UPDATE ENEMIES
         for enemy in self.enemies:
             # temp shooting place
             enemy.update(self.player.pos.copy())
             enemy.draw(canvas)
 
-        # Bullet OoB(Out of Bounds) check
-        for bullet in self.player.weapon.attack:
-            if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
-                self.player.weapon.removeAttack(bullet)
-
-        for enemy in self.enemies:
-            for bullet in enemy.weapon.attack:
-                if bullet.pos.y > self.CANVAS_HEIGHT - 20 or bullet.pos.y < 20 or bullet.pos.x > self.CANVAS_WIDTH - 20 or bullet.pos.x < 20:
-                    enemy.weapon.removeAttack(bullet)
-
-        # This is for checking to see if the bullet is within the enemies hitbox.
-        for bullet in self.player.weapon.attack:
-            for enemyIndex in range(len(self.enemies)):
-                if (bullet.pos.x < (self.enemies[enemyIndex].pos.x + self.enemies[enemyIndex].size)) and (
-                        bullet.pos.x > (self.enemies[enemyIndex].pos.x - self.enemies[enemyIndex].size)) and (
-                        bullet.pos.y < (self.enemies[enemyIndex].pos.y + self.enemies[enemyIndex].size)) and (
-                        bullet.pos.y > (self.enemies[enemyIndex].pos.y - self.enemies[enemyIndex].size)):
-
-                    # Subtracting damage from enemies health
-                    self.enemies[enemyIndex].damage(self.player.weapon.damage)
-
-                    # Removing bullet, so that it does not go through the enemy
-                    self.player.weapon.removeAttack(bullet)
-
-                    # Removing enemies from list enemy list
-                    if self.killCheck(self.enemies[enemyIndex]):
-                        break
-
-
-        for enemy in self.enemies:
-            for bullet in enemy.weapon.attack:
-                if (bullet.pos.x < (self.player.pos.x + self.player.size)) and (
-                        bullet.pos.x > (self.player.pos.x - self.player.size)) and (
-                        bullet.pos.y < (self.player.pos.y + self.player.size)) and (
-                        bullet.pos.y > (self.player.pos.y - self.player.size)):
-
-                    # Decreasing player health when bullet lands
-                    self.player.damage(enemy.weapon.damage)
-                    self.livesCheck(self.player)
-
-                    # Removing the bullet so that is does not go though the enemy
-                    enemy.weapon.removeAttack(bullet)
-                    # print("Player hit!")
-
-
+        #DRAW AND UPDATE ITEMS
         for item in self.items:
             item.draw(canvas)
             item.update()
-        self.shop.draw(canvas)
-        self.hud.draw(canvas,self.player.lives,self.player.health,self.score,self.player.weapon.__str__(),self.player.money)
+
         # DRAW CHARS HERE
         self.player.draw(canvas, self.player.pos.copy())
 
+        self.shop.draw(canvas)
+        self.hud.draw(canvas,self.player.lives,self.player.health,self.score,self.player.weapon.__str__(),self.player.money)
+
+        self.outOfBoundsCheck()
+        self.bulletHitCheck()
+        self.playerOutOfBounds()
+
+        #DISPLAY WIN SCREEN
         if self.state.winner:
             playScore = "Score: " + str(self.score)
             canvas.draw_text('Winner',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Winner', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
@@ -223,8 +245,6 @@ class Game:
                 time.sleep(5)
                 self.frame.stop()
             self.state.end = True
-
-
 
         #Seeing if the enemies array is empty, if so than increase the round counter by 1, change the state, then run the waves function again. Which will then load in round 2 enemies
         if len(self.enemies) == 0 and self.shop.visible == False and self.state.winner == False:
@@ -238,6 +258,7 @@ class Game:
             time.sleep(3)
             self.frame.stop()
 
+        self.livesCheck(self.player)
         if self.player.lives == 0:
             self.state.gameOver()
             showScore = "Score: " + str(self.score)
@@ -275,13 +296,11 @@ class Game:
 
         self.shop.setVisible(False)
 
-
     def killCheck(self, enemy):
         kill = False
         if enemy.health <= 0:
             kill = True
             self.score += enemy.points
-            #print('Player Score: ', self.score)
             self.enemies.remove(enemy)
             self.player.money += 100
 
@@ -292,7 +311,6 @@ class Game:
             self.player.lives -= 1
             if player.lives > 0:
                 self.player.health = 100
-
 
     def placeRandomPickups(self):
         self.pistolPickup = WeaponPickup(self.Pistol, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Pistol.png',self.items)

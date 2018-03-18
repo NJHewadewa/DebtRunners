@@ -1,5 +1,6 @@
 from Vector import Vector
-from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
+from Sprite import Sprite
+
 
 class Weapon:
     def __init__(self,d=20, bulletSpeed=7,cd=60,size=2,pos=Vector()):
@@ -28,12 +29,8 @@ class Weapon:
             #canvas.draw_circle(self.pos.getP(), 9, 1, "Green", "Green")
             pass
         for a in self.attack:
-            canvas.draw_circle(a.pos.getP(), 4, 1, "Blue", "Blue")
-            #below not working for bullet sprite
-            #image = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/bullet.png?raw=true')
-            #canvas.draw_image(image,(224/2,224/2),(224,224),self.pos.getP(),(112,112))
-            # canvas.draw_circle(a.pos.getP(), self.size, 1, "Blue", "Blue")
-            #these are the bullets being drawn
+            #canvas.draw_circle(a.pos.getP(), 4, 1, "Blue", "Blue")
+            a.bulletSprite.drawBullet(canvas, a.pos.copy())
 
     def update(self, mousepos, playerpos):
         #if weapon is being held
@@ -155,6 +152,7 @@ class Shotgun(Weapon):
             print(a.vel.getP())
 
 class Bullet:
+    bulletSprite = Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/Bullet.png?raw=true')
     def __init__(self, pos=Vector(), vel=Vector(),homing=False,enemyPos=Vector(),bulletSpeed=7):
         self.pos = pos
         self.vel = vel

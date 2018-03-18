@@ -1,5 +1,6 @@
 from Weapon import *
 from Behaviour import *
+from Sprite import Sprite
 import math, random
 
 class Actor: #extend body
@@ -50,7 +51,6 @@ class Actor: #extend body
 
     def spriteAssignment(self):
         if isinstance(self, Enemy):
-            print("THIS IS AN ENEMY; BEWARE!")
             if isinstance(self.weapon, Pistol):
                 if random.randint(0,1) == 0:
                     self.sprite = self.enemySprites[0]
@@ -67,7 +67,6 @@ class Actor: #extend body
                 else:
                     self.sprite = self.enemySprites[5]
         elif isinstance(self, Player):
-            print("A HERO HAS ENTERED THE ARENA!")
             if isinstance(self.weapon, Pistol):
                 self.sprite = self.playerSprites[0]
             if isinstance(self.weapon, Shotgun):
@@ -80,21 +79,6 @@ class Actor: #extend body
                 self.sprite = self.playerSprites[4]
             if isinstance(self.weapon, RPG):
                 self.sprite = self.playerSprites[5]
-
-class Sprite:
-    def __init__(self, image):
-        self.image = simplegui.load_image(image)
-        self.width = self.image.get_width()
-        self.height = self.image.get_height()
-        self.frameSize = (self.width, self.height)
-        self.frameCentre = (self.frameSize[0]/2, self.frameSize[1]/2)
-
-    def draw(self, canvas, pos, size, rotate):
-        centerSource = [self.frameCentre[0], self.frameCentre[1]]
-        sizeSource = self.frameSize
-        centerDest = pos.getP()
-        sizeDest = (size*4, size*4)
-        canvas.draw_image(self.image, centerSource, sizeSource, centerDest, sizeDest, rotate)
 
 class Player(Actor): #control self
     # Player class sprites holding items in order: Pistol, Shotgun, Rifle, Knife, Sniper, RPG
