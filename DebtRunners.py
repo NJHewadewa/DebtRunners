@@ -327,7 +327,7 @@ class Game:
             print(x)
             self.items.append(Pickups[randint(0, len(Pickups) - 1)])
 
-        self.healthPickup = HealthPickup(25,self.player,Vector(randint(100, 1100), randint(200, 700)),60,60,'INSERT HEALTH PACK SPRITE PNG HERE',self.items)
+        self.healthPickup = HealthPickup(25,self.player,Vector(randint(100, 1100), randint(200, 700)),60,60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/HP.png',self.items)
         self.items.append(self.healthPickup)
         self.noMoney = False
         #self.items.append(self.ak47Pickup)

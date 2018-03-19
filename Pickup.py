@@ -47,7 +47,8 @@ class HealthPickup(Pickup): #pickup that increases a stat, e,g (health, armour, 
         self.items.remove(self)
 
     def draw(self, canvas):
-        canvas.draw_circle(self.pos.getP(), 8, 1, 'Black', 'Red')
+        #canvas.draw_circle(self.pos.getP(), 8, 1, 'Black', 'Red')
+        canvas.draw_image(self.image, (896 / 2, 896 / 2), (896, 896), self.pos.getP(), (32, 32))
         #all images have to be 896x896 for now
 
 
