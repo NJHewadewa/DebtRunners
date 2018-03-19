@@ -1,4 +1,3 @@
-from Vector import Vector
 from Weapon import *
 from Actor import Player
 
@@ -20,7 +19,6 @@ class Shop():
         self.Sniper = Button(Vector(600,400),50,Sniper(),600)
         self.Knife = Button(Vector(750,400),50,Knife(self.enemies),100)
         self.Default = Button(Vector(900, 325), 150, player.weapon, 0)
-        #all the label buttons being added to a list.
         self.buttons.append(self.AssaultRifle)
         self.buttons.append(self.Shotgun)
         self.buttons.append(self.Pistol)

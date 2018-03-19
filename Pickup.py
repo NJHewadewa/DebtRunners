@@ -2,7 +2,7 @@ from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
 class Pickup():
     def __init__(self,player,pos,xBox,yBox,filename, items):
         self.pos = pos
-        self.xBox = xBox #make xBox and ybox into 1 point?
+        self.xBox = xBox
         self.yBox = yBox
         self.player = player
         self.filename = filename
@@ -19,7 +19,6 @@ class Pickup():
 
     def draw(self, canvas):
         canvas.draw_image(self.image, (896/2,896/2), (896,896), self.pos.getP(), (112,112))
-        #all images have to be 896x896 for now
 
     def collisionDetected(self):
         pass
@@ -31,7 +30,6 @@ class WeaponPickup(Pickup): #pickup for the different type of weapons(AR, pistol
         super().__init__(player,pos,xBox,yBox,filename,items)
 
     def collisionDetected(self):
-        print("Pickup has been picked up!")
         self.player.weapon = self.weapon
         self.items.remove(self)
 
@@ -47,8 +45,6 @@ class HealthPickup(Pickup): #pickup that increases a stat, e,g (health, armour, 
         self.items.remove(self)
 
     def draw(self, canvas):
-        #canvas.draw_circle(self.pos.getP(), 8, 1, 'Black', 'Red')
         canvas.draw_image(self.image, (896 / 2, 896 / 2), (896, 896), self.pos.getP(), (32, 32))
-        #all images have to be 896x896 for now
 
 

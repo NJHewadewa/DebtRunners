@@ -3,7 +3,7 @@ from Sprite import Sprite
 
 
 class Weapon:
-    def __init__(self,d=20, bulletSpeed=7,cd=60,size=2,pos=Vector()):
+    def __init__(self,d=20, bulletSpeed=7,cd=60,size=3,pos=Vector()):
         self.damage = d
         self.bulletSpeed = bulletSpeed
         self.cooldown = cd
@@ -25,18 +25,11 @@ class Weapon:
     def draw(self, canvas):
         if type(self) is Knife:
             pass
-        else:
-            #canvas.draw_circle(self.pos.getP(), 9, 1, "Green", "Green")
-            pass
         for a in self.attack:
-            #canvas.draw_circle(a.pos.getP(), 4, 1, "Blue", "Blue")
             a.bulletSprite.drawBullet(canvas, a.pos.copy())
 
     def update(self, mousepos, playerpos):
-        #if weapon is being held
         self.pos = mousepos.subtract(playerpos).normalize().multiply(9).add(playerpos)
-        #else update position with velocity of it being thrown
-        #####HERE#####
         #Update all bullets fired by the gun
         for a in self.attack:
             a.update()
@@ -65,7 +58,6 @@ class Knife(Weapon):
                     # Removing enemies from list enemy list
                     if enemy.killCheck(enemy):
                         self.enemies.remove(enemy)
-                    print('knife Hit!')
 
 class Pistol(Weapon):
     def __init__(self, d=5,sp=8, cd=45): #d=damage, sp=speed,cd=cooldown(rate of fire)
@@ -108,7 +100,6 @@ class RPG(Weapon):
                     nearestEnemy = enemy
                     self.newDestination = nearestEnemy.pos.copy()
 
-            #posEnd = self.newDestination
             vel = posEnd.subtract(posStart).normalize().multiply(self.bulletSpeed)
             self.attack.append(Bullet(posStart.copy(), vel.copy(),True,nearestEnemy.pos,self.bulletSpeed))
             self.timer = self.cooldown
@@ -139,17 +130,8 @@ class Shotgun(Weapon):
                 self.attack.append(Bullet(playerPos.copy(),vel.copy()))
                 vel = mousePos.copy().subtract(playerPos.copy()).normalize().multiply(self.bulletSpeed).rotate(x*-7)
                 self.attack.append(Bullet(playerPos.copy(),vel.copy()))
-
-            self.thegodofallDebugs()
             self.timer = self.cooldown
 
-    def thegodofallDebugs(self):
-        for a in self.attack:
-            print("Index: " + str(self.attack.index(a)))
-            print("Position: ", end='')
-            print(a.pos.getP())
-            print("Velocity: ", end='')
-            print(a.vel.getP())
 
 class Bullet:
     bulletSprite = Sprite('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/Bullet.png?raw=true')

@@ -36,7 +36,6 @@ class Actor: #extend body
             self.spriteAssignment()
             self.oldweapon = self.weapon
         self.weapon.draw(canvas)
-        #canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", self.colour)
         self.sprite.draw(canvas, pos, self.size, self.rotation)
 
 
@@ -126,8 +125,6 @@ class Enemy(Actor):
         return self.pos.copy().subtract(other.pos.copy()).length()
 
     def draw(self, canvas):
-        #self.weapon.draw(canvas)
-        #canvas.draw_circle(self.pos.getP(), self.size, 1, "Red", self.colour)
         centreX = self.pos.getP()[0]
         centreY = self.pos.getP()[1]
         offset = 10

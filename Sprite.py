@@ -19,5 +19,5 @@ class Sprite:
         centerSource = [self.frameCentre[0], self.frameCentre[1]]
         sizeSource = self.frameSize
         centerDest = pos.getP()
-        sizeDest = (16, 16)
+        sizeDest = (8, 8)
         canvas.draw_image(self.image, centerSource, sizeSource, centerDest, sizeDest)

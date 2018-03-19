@@ -1,7 +1,5 @@
-from SimpleGUICS2Pygame import simpleguics2pygame as simplegui
-import pygame, sys
+import pygame
 from Actor import Player, Enemy
-from Vector import Vector
 import time
 from Shop import Shop
 from hud import hud
@@ -22,9 +20,7 @@ class Game:
         self.state = State()
         self.waveCount = 1
         self.menu = Menu_Screen()
-
         self.state.startGame()
-
         self.waves()
         self.shop = Shop(False, self.enemies,self.player)
         self.hud = hud(True)
@@ -54,9 +50,7 @@ class Game:
         self.noMoney = False
 
         self.newWave = False
-        # Loading in the background image from the github, since I can't do it locally at the moment.
         self.backgroundImage = simplegui.load_image('https://image.ibb.co/kEhcuc/map.png')
-        #self.backgroundImage = simplegui.load_image('https://github.com/NJHewadewa/DebtRunners/blob/master/Sprites/parking.png?raw=true')
 
     def outOfBoundsCheck(self):
         # Bullet OoB(Out of Bounds) check
@@ -121,7 +115,7 @@ class Game:
         #basic pistol round
         if self.waveCount == 1:
             self.placeRandomPickups()
-            for e in range(4):  # 3 is number of enemies
+            for e in range(3):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 5 * (e + 1), self.CANVAS_HEIGHT / 5), 15, Pistol(), 10))
@@ -133,7 +127,7 @@ class Game:
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 4 * (e + 1), self.CANVAS_HEIGHT / 4), 40, Shotgun(), 10))
-            for e in range(4):  # 3 is number of enemies
+            for e in range(2):  # 3 is number of enemies
                 # Assigns the enemies different positions, health and a new weapon
                 self.enemies.append(
                     Enemy(Vector(self.CANVAS_WIDTH / 5 * (e + 1), self.CANVAS_HEIGHT / 8), 40, Pistol(), 10))
@@ -211,12 +205,10 @@ class Game:
         self.player.update(self.mouse.pos.copy())
         self.mouse.update()
         # Displaying the background image on the screen.
-        # Format: ( Image name, center of image, image dimensions, canvas center, canvas dimensions.)
         canvas.draw_image(self.backgroundImage,(450,450),(900,900),(self.CANVAS_WIDTH/2,self.CANVAS_HEIGHT/2),(self.CANVAS_WIDTH, self.CANVAS_HEIGHT))
 
         # DRAW AND UPDATE ENEMIES
         for enemy in self.enemies:
-            # temp shooting place
             enemy.update(self.player.pos.copy())
             enemy.draw(canvas)
 
@@ -240,7 +232,6 @@ class Game:
             playScore = "Score: " + str(self.score)
             canvas.draw_text('Winner',[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth('Winner', 50))/2,self.CANVAS_HEIGHT/2],50,'Red')
             canvas.draw_text(playScore,[(self.CANVAS_WIDTH/2)-(self.frame.get_canvas_textwidth(playScore, 50))/2,(self.CANVAS_HEIGHT/2)+51],50,'Red')
-            print('Here')
             if self.state.end:
                 time.sleep(5)
                 self.frame.stop()
@@ -278,7 +269,6 @@ class Game:
                         self.mouse.pos.y < (button.pos.y + button.size)) and (
                         self.mouse.pos.y > (button.pos.y - button.size)):
 
-                    #print("currentGun = " + self.player.weapon.__str__())
                     if button.price == 0:
                         self.waveCount += 1
                         self.waves()
@@ -289,10 +279,6 @@ class Game:
                         self.waves()
                     else:
                         self.noMoney = True
-
-
-                    print("currentGun = " + self.player.weapon.__str__())
-
 
         self.shop.setVisible(False)
 
@@ -315,7 +301,6 @@ class Game:
     def placeRandomPickups(self):
         self.pistolPickup = WeaponPickup(self.Pistol, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Pistol.png',self.items)
         self.knifePickup = WeaponPickup(self.melee, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/knife.png',self.items)
-        #fix knife sprite
         self.ak47Pickup = WeaponPickup(self.AR, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Rifle.png',self.items)
         self.shotgunPickup = WeaponPickup(self.SG, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Shotgun.png',self.items)
         self.sniperPickup = WeaponPickup(self.Sniper, self.player, Vector(randint(100, 1100), randint(200, 700)), 60, 60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/Sniper.png',self.items)
@@ -324,19 +309,11 @@ class Game:
         Pickups = [self.pistolPickup,self.knifePickup,self.ak47Pickup,self.ak47Pickup,self.shotgunPickup,self.shotgunPickup,self.shotgunPickup,self.sniperPickup,self.RPGPickup]
 
         for x in range(randint(0,4)):
-            print(x)
             self.items.append(Pickups[randint(0, len(Pickups) - 1)])
 
         self.healthPickup = HealthPickup(25,self.player,Vector(randint(100, 1100), randint(200, 700)),60,60,'https://raw.githubusercontent.com/NJHewadewa/DebtRunners/master/Sprites/HP.png',self.items)
         self.items.append(self.healthPickup)
         self.noMoney = False
-        #self.items.append(self.ak47Pickup)
-        #self.items.append(self.shotgunPickup)
-        #self.items.append(self.knifePickup)
-        #self.items.append(self.pistolPickup)
-        #self.items.append(self.sniperPickup)
-        #self.items.append(self.RPGPickup)
-
 
 class Mouse:
     def __init__(self):
@@ -403,15 +380,6 @@ class Movement:  # solver
             if not vel == Vector():
                 self.player.vel.add(vel.normalize().multiply(self.player.speed))
 
-
-class Interaction: #to avoid repetitive code, add the method to check if (x collided with y)
-    def __init__(self, ):
-        pass
-
-    def update(self):
-        pass
-
-
 class State:
     def __init__(self):
         self.start = False
@@ -419,12 +387,10 @@ class State:
         self.winner = False
         self.end = False
 
-    # When the user presses play on the Menu, this should happen. TO BE IMPLEMENTED
     def startGame(self):
         self.start = True
 
     # When the game is over, this then sets over to true and the game will display a screen wtih the score on. This is for if the player dies, not if the player completes the game
-    # that is a different function that I will eventually do.
     def gameOver(self):
         self.over = True
 
@@ -499,12 +465,10 @@ class Menu_Screen:
 
     # Running the stuff
     def instructions(self):
-        #global title, levelname, maintext
         self.title = "Instructions"
         self.maintext = "Back"
 
     def startmenu(self):
-        #global title, levelname, maintext
         self.title = "Debt Runners"
 
 
