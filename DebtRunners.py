@@ -50,7 +50,7 @@ class Game:
         self.noMoney = False
 
         self.newWave = False
-        self.backgroundImage = simplegui.load_image('https://image.ibb.co/kEhcuc/map.png')
+        self.backgroundImage = simplegui.load_image('https://i.gyazo.com/ae4f750ad9d260a260f7deb52b36388a.png')
 
     def outOfBoundsCheck(self):
         # Bullet OoB(Out of Bounds) check
